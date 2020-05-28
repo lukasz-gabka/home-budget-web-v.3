@@ -1,0 +1,184 @@
+html 
+{
+  position: relative;
+  min-height: 100%;
+}
+
+body
+{
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 18px;
+}
+
+.navigation
+{
+	background-color: #009b44;
+	font-size: 22px;
+	color: white;
+	text-align: center;
+}
+
+.navigation2
+{
+	background-color: #00ac55;
+	font-size: 20px;
+	text-align: center;
+}
+
+.navbar-nav a
+{
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.navbar-brand
+{
+	font-family: 'Titan One', cursive;
+	font-size: 35px;
+	font-weight: 700;
+}
+
+.dropdown-menu
+{
+	border: none;
+}
+
+.dropdown-item
+{
+	color: rgba(255,255,255,.5) !important;
+}
+
+.dropdown-item:hover
+{
+	background-color: inherit;
+	color: rgba(255,255,255,.75) !important;
+}
+
+@media (min-width: 401px) and (max-width: 500px)
+{
+	.dateRange
+	{
+		font-size: 32px;
+	}
+}
+
+@media (max-width: 400px)
+{
+	.dateRange
+	{
+		font-size: 26px;
+	}
+}
+
+.row
+{
+	padding-bottom: 92px;
+}
+
+.yellow
+{
+	color: #ccc616;
+}
+
+a p
+{
+	display: inline-block;
+	margin: 0;
+}
+
+.inputs,
+.inputsPrepend
+{
+	max-width: 400px;
+	color: #124D09;
+	box-sizing: border-box;
+	border: 1px solid #009b44;
+	border-radius: 5px;
+	background-color: #e8ead6;
+}
+
+.maxWidth
+{
+	max-width: 436px;
+}
+
+.inputsPrepend
+{
+	background-color: #009b44;
+	color: white;
+}
+
+input[type=submit],
+input[type=button],
+input[type=reset],
+input[type=submit]:focus
+{
+	background-color: #009b44;
+	color: white;
+	max-width: 436px;
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+input[type=date]:focus,
+input[type=number]:focus,
+textarea:focus
+{
+	background-color: #e8ead6 !important;
+}
+
+.inputs:focus
+{
+	border: 1px solid #009b44;
+	-webkit-box-shadow: 0px 0px 8px 0px rgba(18,77,9,0.85);
+	-moz-box-shadow: 0px 0px 8px 0px rgba(18,77,9,0.85);
+	box-shadow: 0px 0px 8px 0px rgba(18,77,9,0.85);
+}
+
+textarea
+{
+	height: 38px !important;
+	resize: none;
+}
+
+.submitButtons
+{
+	max-width: 150px !important;
+}
+
+table, th, td
+{
+	border-color: #005700 !important;
+}
+
+thead
+{
+	background-color: #00ac55;
+}
+
+tbody
+{
+	background-color: #e8ead6;
+}
+
+.close
+{
+	text-shadow: none;
+	color: white;
+}
+
+.close:hover
+{
+	opacity: .75;
+	color: inherit;
+}
+
+.footer 
+{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+}
