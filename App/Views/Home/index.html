@@ -1,15 +1,34 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}e-świnka{% endblock %}
 
 {% block body %}
 
-    <h1>Welcome</h1>
-
-    {% if current_user %}
-        Hello {{ current_user.name }}.
-    {% else %}
-        <a href="/signup/new">Sign up</a> or <a href="/login">log in</a>.
-    {% endif %}
+    <main>
+		<div class="container mt-5">
+			<article>
+				<header>
+					<h1 class="text-center">Witaj na <span class="font-weight-bold"><span class="yellow">e</span>-świnka</span>!</h1>
+				</header>
+				
+				<div class="row mt-5">
+					<div class="col-md-4 mb-4 my-auto">
+						<img src="img/piggy2.jpg" class="img-fluid" alt="piggy">
+					</div>
+				
+					<div class="col-md-8">
+						<p class="lead text-center"><span class="font-weight-bold"><span class="yellow">e</span>-świnka</span> to aplikacja do zarządzania budżetem domowym.</p>
+					
+						<p class="text-justify">Dodawaj na bieżąco wszystkie swoje operacje pieniężne, a dzięki opcji ich wizualizacji szybko zorientujesz się, gdzie należy obnizyć swoje wydatki. Zdziwisz się, jak taka z pozoru prosta aplikacja pomoże Ci zaoszczędzić Twoje pieniądze.</p>
+						
+						<p class="text-justify"><span class="font-weight-bold"><span class="yellow">e</span>-świnka</span> to Twoja prywatna elektroniczna skarbonka do oszczędzania pieniędzy i zarządzania budżetem domowym.</p>
+						
+						<p class="lead text-center">Zarejestruj się i zacznij oszczędzać już dziś!</p>
+					</div>
+					
+				</div>
+			</article>
+		</div>
+	</main>
 
 {% endblock %}
