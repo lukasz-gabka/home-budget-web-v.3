@@ -24,22 +24,82 @@
 				</a>
 			</header>
 			
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-expanded="false" aria-label="Przełącznik nawigacji">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".menu" aria-expanded="false" aria-label="Przełącznik nawigacji">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			
-			<div class="collapse navbar-collapse" id="menu">
-				<div class="navbar-nav ml-auto">
-					<a class="nav-item nav-link" href="/logowanie">
-						<i class="icon-login"></i> Logowanie
-					</a>
-					
-					<a class="nav-item nav-link" href="/rejestracja">
-						<i class="icon-user-plus"></i> Rejestracja
-					</a>
-				</div>
-			</div>
-		</nav>
+			{% if current_user %}
+					<div class="collapse navbar-collapse menu">
+						<div class="navbar-nav ml-auto">
+							<span class="nav-item my-auto mr-3 loogedUser">Zalogowany użytkownik: 
+								<span class="font-weight-bold yellow">{{ current_user.name }}</span>
+							</span>
+							
+							<a class="nav-item nav-link" href="/wyloguj">
+								<i class="icon-logout"></i> Wyloguj
+							</a>
+						</div>
+					</div>
+				</nav>
+				
+				<nav class="navbar navbar-dark navbar-expand-md navigation2 py-0 py-md-2">	
+					<div class="collapse navbar-collapse menu">
+						<ul class="navbar-nav mx-auto">
+							<li class="nav-item mx-3">
+								<a class="nav-link" href="income.php">
+									<i class="icon-up-big"></i> Dodaj przychód
+								</a>
+							</li>
+							
+							<li class="nav-item mx-3">
+								<a class="nav-link" href="expense.php">
+									<i class="icon-down-big"></i> Dodaj wydatek
+								</a>
+							</li>
+							
+							<li class="nav-item mx-3 dropdown">
+								<a class="nav-link dropdown-toggle" href="balance.php" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="icon-chart-bar"></i> Bilans
+								</a>
+								
+								<div class="dropdown-menu navigation2" aria-labelledby="navbarDropdown">
+								  <a class="dropdown-item nav-link" href="balanceCurrentMonth.php">Bieżący miesiąc</a>
+								  <a class="dropdown-item nav-link" href="balancePreviousMonth.php">Poprzedni miesiąc</a>
+								  <a class="dropdown-item nav-link" href="balanceCurrentYear.php">Bieżący rok</a>
+								  <a class="dropdown-item nav-link" href="#" data-toggle="modal" data-target="#customBalance">Niestandardowy...</a>
+								</div>
+							</li>
+							
+							<li class="nav-item mx-3">
+								<a class="nav-link" href="#">
+									<i class="icon-cog"></i> Ustawienia
+								</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			{% else %}
+					<div class="collapse navbar-collapse menu">
+						<div class="navbar-nav ml-auto">
+							<a class="nav-item nav-link {{ login_active }}" href="/logowanie">
+								<i class="icon-login"></i> Logowanie
+							</a>
+							
+							<a class="nav-item nav-link {{ register_active }}" href="/rejestracja">
+								<i class="icon-user-plus"></i> Rejestracja
+							</a>
+						</div>
+					</div>
+				</nav>
+			{% endif %}
+		
+		{% block navigation %}{% endblock %}
+		
+		{% for message in flash_messages %}
+            <div class="alert alert-{{ message.type }} m-3 text-center">
+                {{ message.body }}
+            </div>
+        {% endfor %}
 		
 		{% block body %}
         {% endblock %}

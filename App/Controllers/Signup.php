@@ -20,7 +20,8 @@ class Signup extends \Core\Controller
      */
     public function newAction()
     {
-        View::renderTemplate('Signup/new.html');
+        View::renderTemplate('Signup/new.html', [
+			'register_active' => 'active']);
     }
 
     /**

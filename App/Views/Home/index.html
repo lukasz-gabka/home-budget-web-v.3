@@ -4,31 +4,56 @@
 
 {% block body %}
 
-    <main>
-		<div class="container mt-5">
-			<article>
-				<header>
-					<h1 class="text-center">Witaj na <span class="font-weight-bold"><span class="yellow">e</span>-świnka</span>!</h1>
-				</header>
-				
-				<div class="row mt-5">
-					<div class="col-md-4 mb-4 my-auto">
-						<img src="img/piggy2.jpg" class="img-fluid" alt="piggy">
-					</div>
-				
-					<div class="col-md-8">
-						<p class="lead text-center"><span class="font-weight-bold"><span class="yellow">e</span>-świnka</span> to aplikacja do zarządzania budżetem domowym.</p>
+	{% if current_user %}
+		<main>
+			<div class="container mt-5">
+				<article>
+					<header>
+						<h1 class="text-center">Witaj {{ current_user.name }}</h1>
+					</header>
 					
-						<p class="text-justify">Dodawaj na bieżąco wszystkie swoje operacje pieniężne, a dzięki opcji ich wizualizacji szybko zorientujesz się, gdzie należy obnizyć swoje wydatki. Zdziwisz się, jak taka z pozoru prosta aplikacja pomoże Ci zaoszczędzić Twoje pieniądze.</p>
-						
-						<p class="text-justify"><span class="font-weight-bold"><span class="yellow">e</span>-świnka</span> to Twoja prywatna elektroniczna skarbonka do oszczędzania pieniędzy i zarządzania budżetem domowym.</p>
-						
-						<p class="lead text-center">Zarejestruj się i zacznij oszczędzać już dziś!</p>
-					</div>
+					<div class="row mt-5">
+						<div class="col-md-4 mb-4 my-auto">
+							<img src="/img/piggy3.jpg" class="img-fluid" alt="piggy">
+						</div>
 					
-				</div>
-			</article>
-		</div>
-	</main>
+						<div class="col-md-8">
+							<p class="text-center">Jak tam Twoje finanse?</p>
+							
+							<p class="text-center">Wybierz interesującą Cię opcję z menu powyżej</p>
+						</div>
+						
+					</div>
+				</article>
+			</div>
+		</main>
+	{% else %}
+		<main>
+			<div class="container mt-5">
+				<article>
+					<header>
+						<h1 class="text-center">Witaj na <span class="font-weight-bold"><span class="yellow">e</span>-świnka</span>!</h1>
+					</header>
+					
+					<div class="row mt-5">
+						<div class="col-md-4 mb-4 my-auto">
+							<img src="img/piggy2.jpg" class="img-fluid" alt="piggy">
+						</div>
+					
+						<div class="col-md-8">
+							<p class="lead text-center"><span class="font-weight-bold"><span class="yellow">e</span>-świnka</span> to aplikacja do zarządzania budżetem domowym.</p>
+						
+							<p class="text-justify">Dodawaj na bieżąco wszystkie swoje operacje pieniężne, a dzięki opcji ich wizualizacji szybko zorientujesz się, gdzie należy obnizyć swoje wydatki. Zdziwisz się, jak taka z pozoru prosta aplikacja pomoże Ci zaoszczędzić Twoje pieniądze.</p>
+							
+							<p class="text-justify"><span class="font-weight-bold"><span class="yellow">e</span>-świnka</span> to Twoja prywatna elektroniczna skarbonka do oszczędzania pieniędzy i zarządzania budżetem domowym.</p>
+							
+							<p class="lead text-center">Zarejestruj się i zacznij oszczędzać już dziś!</p>
+						</div>
+						
+					</div>
+				</article>
+			</div>
+		</main>
+	{% endif %}
 
 {% endblock %}

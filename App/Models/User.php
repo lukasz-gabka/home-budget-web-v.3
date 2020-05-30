@@ -158,20 +158,23 @@ class User extends \Core\Model
      * @param string $email email address
      * @param string $password password
      *
-     * @return mixed  The user object or false if authentication fails
+     * @return object  The user object
      */
     public static function authenticate($email, $password)
     {
         $user = static::findByEmail($email);
 
-        //if ($user) {
         if ($user && $user->is_active) {
             if (password_verify($password, $user->password_hash)) {
                 return $user;
-            }
-        }
-
-        return false;
+            } else {
+				$user->errors[] = "Nieprawidłowe hasło";
+				return $user;
+			}
+        } else {
+			$user->errors[] = "Użytkownik o takim adresie e-mail nie istnieje";
+			return $user;
+		}
     }
 
     /**

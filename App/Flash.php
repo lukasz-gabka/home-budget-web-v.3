@@ -27,7 +27,7 @@ class Flash
      * Warning message type
      * @var string
      */
-    const WARNING = 'warning';
+    const DANGER = 'danger';
 
     /**
      * Add a message
