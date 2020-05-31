@@ -35,6 +35,7 @@ $router = new Core\Router();
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('logowanie', ['controller' => 'Login', 'action' => 'new']);
 $router->add('rejestracja', ['controller' => 'Signup', 'action' => 'new']);
+$router->add('dodaj-przychod', ['controller' => 'Incomes', 'action' => 'show']);
 $router->add('wyloguj', ['controller' => 'Login', 'action' => 'destroy']);
 $router->add('{controller}/{action}');
 $router->add('password/reset/{token:[\da-f]+}', ['controller' => 'password', 'action' => 'reset']);
