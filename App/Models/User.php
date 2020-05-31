@@ -47,14 +47,14 @@ class User extends \Core\Model
 
         if (empty($this->errors)) {
 
-            $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
+            $password_hash = password_hash($this->password1, PASSWORD_DEFAULT);
 
-            $token = new Token();
+            /*$token = new Token();
             $hashed_token = $token->getHash();
-            $this->activation_token = $token->getValue();
+            $this->activation_token = $token->getValue();*/
 
-            $sql = 'INSERT INTO users (name, email, password_hash, activation_hash)
-                    VALUES (:name, :email, :password_hash, :activation_hash)';
+            $sql = 'INSERT INTO users (name, email, password_hash)
+                    VALUES (:name, :email, :password_hash)';
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
@@ -62,7 +62,7 @@ class User extends \Core\Model
             $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
             $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
             $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
-            $stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
+            //$stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
 
             return $stmt->execute();
         }
@@ -79,30 +79,42 @@ class User extends \Core\Model
     {
         // Name
         if ($this->name == '') {
-            $this->errors[] = 'Name is required';
+            $this->errors[] = 'Imię jest wymagane';
+        }
+        
+        if (strlen($this->name) < 3) {
+            $this->errors[] = 'Imię nie może być krótsze niż 3 znaki';
+        }
+        
+        if (strlen($this->name) > 15) {
+            $this->errors[] = 'Imię nie może być dłuższe niż 15 znaków';
         }
 
         // email address
         if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false) {
-            $this->errors[] = 'Invalid email';
+            $this->errors[] = 'Niepoprawny adres e-mail';
         }
         if (static::emailExists($this->email, $this->id ?? null)) {
-            $this->errors[] = 'email already taken';
+            $this->errors[] = 'Adres e-mail jest już zajęty';
         }
 
         // Password
-        if (isset($this->password)) {
+        if (isset($this->password1)) {
+			
+			if ($this->password1 != $this->password2) {
+				$this->errors[] = 'Hasła muszą być takie same';
+			}
 
-            if (strlen($this->password) < 6) {
-                $this->errors[] = 'Please enter at least 6 characters for the password';
+            if (strlen($this->password1) < 6) {
+                $this->errors[] = 'Hasło nie może być krótsze niż 6 znaków';
             }
 
-            if (preg_match('/.*[a-z]+.*/i', $this->password) == 0) {
-                $this->errors[] = 'Password needs at least one letter';
+            if (preg_match('/.*[a-z]+.*/i', $this->password1) == 0) {
+                $this->errors[] = 'Hasło musi się składać z co najmniej jednej litery';
             }
 
-            if (preg_match('/.*\d+.*/i', $this->password) == 0) {
-                $this->errors[] = 'Password needs at least one number';
+            if (preg_match('/.*\d+.*/i', $this->password1) == 0) {
+                $this->errors[] = 'Hasło musi się składać z co najmniej jednej liczby';
             }
 
         }
@@ -164,7 +176,7 @@ class User extends \Core\Model
     {
         $user = static::findByEmail($email);
 
-        if ($user && $user->is_active) {
+        if ($user/* && $user->is_active*/) {
             if (password_verify($password, $user->password_hash)) {
                 return $user;
             } else {

@@ -22,7 +22,7 @@
 										</span>
 									</div>
 									
-									<input type="email" class="form-control inputs" placeholder="e-mail" name="email" value="{{ email }}" required>
+									<input type="email" class="form-control inputs" placeholder="e-mail" name="email" value="{{ session.email }}" required>
 								</div>
 
 								<div class="input-group justify-content-center mt-5">
@@ -38,7 +38,7 @@
 								<div class="input-group justify-content-center mt-3">
 									<div class="form-check">
 										<label>
-											<input type="checkbox" class="form-check-input" name="remember_me" {% if remember_me %} checked="checked"{% endif %} /> Zapamiętaj mnie
+											<input type="checkbox" class="form-check-input" name="remember_me" {% if session.remember_me %} checked="checked"{% endif %} /> Zapamiętaj mnie
 										</label>
 									</div>
 								</div>

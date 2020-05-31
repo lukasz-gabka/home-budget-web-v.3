@@ -24,6 +24,9 @@ class Login extends \Core\Controller
     {
         View::renderTemplate('Login/new.html', [
 			'login_active' => 'active']);
+		
+		unset($_SESSION['email']);
+		unset($_SESSION['remember_me']);
     }
 
     /**
@@ -40,20 +43,25 @@ class Login extends \Core\Controller
         if ($user && empty($user->errors)) {
 
             Auth::login($user, $remember_me);
-
-            Flash::addMessage('Zalogowano poprawnie');
+			
+            Flash::addMessage("Zalogowano poprawnie");
 
             $this->redirect(Auth::getReturnToPage());
 
         } else {
 
             Flash::addMessage($user->errors[0], Flash::DANGER);
+            
+            $_SESSION['email'] = $_POST['email'];
+            $_SESSION['remember_me'] = $remember_me;
 
-            View::renderTemplate('Login/new.html', [
+            /*View::renderTemplate('Login/new.html', [
                 'email' => $_POST['email'],
                 'remember_me' => $remember_me,
                 'login_active' => 'active'
-            ]);
+            ]);*/
+            $this->redirect('/logowanie');
+            
         }
     }
 

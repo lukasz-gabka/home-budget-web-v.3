@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\User;
+use \App\Flash;
 
 /**
  * Signup controller
@@ -22,6 +23,9 @@ class Signup extends \Core\Controller
     {
         View::renderTemplate('Signup/new.html', [
 			'register_active' => 'active']);
+		
+		unset($_SESSION['name']);
+		unset($_SESSION['email']);
     }
 
     /**
@@ -35,15 +39,28 @@ class Signup extends \Core\Controller
 
         if ($user->save()) {
 			
-			$user->sendActivationEmail();
+			//$user->sendActivationEmail();
+			
+			Flash::addMessage("Zarejestrowano poprawnie");
 
-            $this->redirect('/signup/success');
+            $this->redirect('/');
 
         } else {
+			
+			//($user->errors);
+			//exit();
+			
+			$user->errorString = implode("\n", $user->errors);
+			
+			Flash::addMessage($user->errorString, Flash::DANGER);
+			
+			$_SESSION['name'] = $_POST['name'];
+			$_SESSION['email'] = $_POST['email'];
 
-            View::renderTemplate('Signup/new.html', [
+            /*View::renderTemplate('Signup/new.html', [
                 'user' => $user
-            ]);
+            ]);*/
+            $this->redirect('/rejestracja');
         }
     }
 
