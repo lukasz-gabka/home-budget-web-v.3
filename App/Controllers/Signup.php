@@ -5,6 +5,8 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\User;
 use \App\Flash;
+use \App\Models\PaymentMethodsDefault;
+use \App\Models\PaymentMethods;
 
 /**
  * Signup controller
@@ -40,6 +42,12 @@ class Signup extends \Core\Controller
         if ($user->save()) {
 			
 			//$user->sendActivationEmail();
+
+			$defPayMethods = PaymentMethodsDefault::get();
+			
+			$user = User::findByEmail($user->email);
+			
+			PaymentMethods::saveDefault($user->id, $defPayMethods);
 			
 			Flash::addMessage("Zarejestrowano poprawnie");
 

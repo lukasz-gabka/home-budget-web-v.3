@@ -30,9 +30,13 @@ class Incomes extends Authenticated {
 	 */
 	public function showAction() {
 		View::renderTemplate('Incomes/add.html', [
-			'user' => $this->user,
+			//'user' => $this->user,
 			'incomes_active' => 'active']);
 	}
+	
+	
+	
+	
 	
 	/**
 	 * Show the form for editing the profile
