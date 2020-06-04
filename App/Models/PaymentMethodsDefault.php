@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use PDO;
-use \App\Token;
-use \App\Mail;
-use \Core\View;
 
 /**
  * Default payment methods model

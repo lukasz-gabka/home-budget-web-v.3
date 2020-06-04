@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use PDO;
-use \App\Token;
-use \App\Mail;
-use \Core\View;
 
 /**
  * Payment methods model
@@ -15,7 +12,7 @@ use \Core\View;
 class PaymentMethods extends \Core\Model
 {
 	/**
-	 * Saves default payment methods to user's payment methods 
+	 * Saves default payment methods to user's payment methods model
 	 * 
 	 * @param id The user's id
 	 * @param array The array of default payment methods names

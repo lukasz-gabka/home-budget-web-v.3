@@ -7,6 +7,10 @@ use \App\Models\User;
 use \App\Flash;
 use \App\Models\PaymentMethodsDefault;
 use \App\Models\PaymentMethods;
+use \App\Models\IncomeCategoriesDefault;
+use \App\Models\IncomeCategories;
+use \App\Models\ExpenseCategoriesDefault;
+use \App\Models\ExpenseCategories;
 
 /**
  * Signup controller
@@ -46,6 +50,8 @@ class Signup extends \Core\Controller
 			$user = User::findByEmail($user->email);
 			
 			static::saveDefaultPaymentMethods($user->id);
+			static::saveDefaultIncomeCategories($user->id);
+			static::saveDefaultExpenseCategories($user->id);
 
 			Flash::addMessage("Zarejestrowano poprawnie");
 
@@ -108,8 +114,34 @@ class Signup extends \Core\Controller
 	 * @return void
 	 */
 	protected static function saveDefaultPaymentMethods($id) {
-		$defPayMethods = PaymentMethodsDefault::get();
+		$paymentMethods = PaymentMethodsDefault::get();
 		
-		PaymentMethods::saveDefault($id, $defPayMethods);
+		PaymentMethods::saveDefault($id, $paymentMethods);
+	}
+	
+	/**
+	 * Saves default income categories to income categories model 
+	 * 
+	 * @param int The user's id
+	 * 
+	 * @return void
+	 */
+	protected static function saveDefaultIncomeCategories($id) {
+		$categories = IncomeCategoriesDefault::get();
+		
+		IncomeCategories::saveDefault($id, $categories);
+	}
+	
+	/**
+	 * Saves default expense categories to expense categories model 
+	 * 
+	 * @param int The user's id
+	 * 
+	 * @return void
+	 */
+	protected static function saveDefaultExpenseCategories($id) {
+		$categories = ExpenseCategoriesDefault::get();
+		
+		ExpenseCategories::saveDefault($id, $categories);
 	}
 }
