@@ -43,12 +43,10 @@ class Signup extends \Core\Controller
 			
 			//$user->sendActivationEmail();
 
-			$defPayMethods = PaymentMethodsDefault::get();
-			
 			$user = User::findByEmail($user->email);
 			
-			PaymentMethods::saveDefault($user->id, $defPayMethods);
-			
+			static::saveDefaultPaymentMethods($user->id);
+
 			Flash::addMessage("Zarejestrowano poprawnie");
 
             $this->redirect('/');
@@ -100,5 +98,18 @@ class Signup extends \Core\Controller
 	 */
 	public function activatedAction() {
 		View::renderTemplate('Signup/activated.html');
+	}
+	
+	/**
+	 * Saves default payment methods to payment methods model 
+	 * 
+	 * @param int The user's id
+	 * 
+	 * @return void
+	 */
+	protected static function saveDefaultPaymentMethods($id) {
+		$defPayMethods = PaymentMethodsDefault::get();
+		
+		PaymentMethods::saveDefault($id, $defPayMethods);
 	}
 }
