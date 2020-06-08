@@ -25,6 +25,20 @@ class IncomeCategories extends \Core\Model
 		foreach ($array as $value) {
 			$db->query("INSERT INTO income_categories VALUES (NULL, $id, '{$value['name']}')");
 		}
-
+	}
+	
+	/**
+	 * Gets income categories
+	 * 
+	 * @param int User's id
+	 * 
+	 * @return array Array of income categories names
+	 */
+	public static function get($id) {
+		$db = static::getDB();
+		
+		$incomeCategories = $db->query("SELECT name FROM income_categories WHERE user_id = $id");
+		
+		return $incomeCategories->fetchAll();
 	}
 }
