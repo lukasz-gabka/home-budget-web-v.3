@@ -61,6 +61,11 @@ class Incomes extends \Core\Model
 		return false;
 	}
 	
+	/**
+	 * Validates the user input
+	 * 
+	 * @return void
+	 */
 	protected function validate() {
 		// Check amount		
 		if (!is_numeric($this->amount) || fmod($this->amount * 100, 1) || $this->amount <= 0) /* 1st statement checks if amount has more than two decimals */{
@@ -73,11 +78,21 @@ class Incomes extends \Core\Model
 		}
 	}
 	
+	/**
+	 * Validates the date format
+	 * 
+	 * @return boolean True if the date formatis correct, false otherwise
+	 */
 	protected function validateDateFormat() {
 		$regex = '/^[\d]{4}-[\d]{2}-[\d]{2}$/';
 		return preg_match($regex, $this->date);
 	}
 	
+	/**
+	 * Validates if the date is correct
+	 * 
+	 * @return boolean True if the date formatis correct, false otherwise
+	 */
 	protected function validateDate() {
 		$regex = '/[\d]+/';
 		preg_match_all($regex, $this->date, $date);

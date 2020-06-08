@@ -39,6 +39,11 @@ class Income extends Authenticated {
 		unset($_SESSION['comment']);
 	}
 	
+	/**
+	 * Add a new income
+	 * 
+	 * @return void
+	 */
 	public function addAction() {		
 		$incomes = new Incomes($_POST);
 		
@@ -58,9 +63,6 @@ class Income extends Authenticated {
 				$_SESSION['comment'] = $_POST['comment'];
 			}
 
-            /*View::renderTemplate('Signup/new.html', [
-                'user' => $user
-            ]);*/
             $this->redirect('/dodaj-przychod');
 		}
 	}

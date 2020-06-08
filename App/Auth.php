@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\User;
 use App\Models\RememberedLogin;
+use \App\Models\IncomeCategories;
 
 /**
  * Authentication
@@ -25,6 +26,8 @@ class Auth
         session_regenerate_id(true);
 
         $_SESSION['user_id'] = $user->id;
+        
+        $_SESSION['incomeCategories'] = IncomeCategories::get($user->id);
 
         if ($remember_me) {
 
@@ -117,7 +120,6 @@ class Auth
 
             $remembered_login = RememberedLogin::findByToken($cookie);
 
-            //if ($remembered_login) {
             if ($remembered_login && ! $remembered_login->hasExpired()) {
 
                 $user = $remembered_login->getUser();

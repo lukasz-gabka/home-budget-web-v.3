@@ -44,8 +44,6 @@ class Signup extends \Core\Controller
         $user = new User($_POST);
 
         if ($user->save()) {
-			
-			//$user->sendActivationEmail();
 
 			$user = User::findByEmail($user->email);
 			
@@ -59,9 +57,6 @@ class Signup extends \Core\Controller
 
         } else {
 			
-			//($user->errors);
-			//exit();
-			
 			$user->errorString = implode("\n", $user->errors);
 			
 			Flash::addMessage($user->errorString, Flash::DANGER);
@@ -69,9 +64,6 @@ class Signup extends \Core\Controller
 			$_SESSION['name'] = $_POST['name'];
 			$_SESSION['email'] = $_POST['email'];
 
-            /*View::renderTemplate('Signup/new.html', [
-                'user' => $user
-            ]);*/
             $this->redirect('/rejestracja');
         }
     }

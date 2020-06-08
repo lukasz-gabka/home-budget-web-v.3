@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\User;
-use \App\Models\IncomeCategories;
 use \App\Auth;
 use \App\Flash;
 
@@ -44,8 +43,6 @@ class Login extends \Core\Controller
         if ($user && empty($user->errors)) {
 
             Auth::login($user, $remember_me);
-            
-            $_SESSION['incomeCategories'] = IncomeCategories::get($user->id);
 			
             Flash::addMessage("Zalogowano poprawnie");
 
@@ -58,11 +55,6 @@ class Login extends \Core\Controller
             $_SESSION['email'] = $_POST['email'];
             $_SESSION['remember_me'] = $remember_me;
 
-            /*View::renderTemplate('Login/new.html', [
-                'email' => $_POST['email'],
-                'remember_me' => $remember_me,
-                'login_active' => 'active'
-            ]);*/
             $this->redirect('/logowanie');
             
         }

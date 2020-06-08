@@ -38,7 +38,5 @@ $router->add('rejestracja', ['controller' => 'Signup', 'action' => 'new']);
 $router->add('dodaj-przychod', ['controller' => 'Income', 'action' => 'show']);
 $router->add('wyloguj', ['controller' => 'Login', 'action' => 'destroy']);
 $router->add('{controller}/{action}');
-$router->add('password/reset/{token:[\da-f]+}', ['controller' => 'password', 'action' => 'reset']);
-$router->add('signup/activate/{token:[\da-f]+}', ['controller' => 'Signup', 'action' => 'activate']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);
