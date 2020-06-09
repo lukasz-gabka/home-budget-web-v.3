@@ -25,6 +25,20 @@ class PaymentMethods extends \Core\Model
 		foreach ($array as $value) {
 			$db->query("INSERT INTO payment_methods VALUES (NULL, $id, '{$value['name']}')");
 		}
-
+	}
+	
+	/**
+	 * Gets payment methods
+	 * 
+	 * @param int User's id
+	 * 
+	 * @return array Array of payment methods names
+	 */
+	public static function get($id) {
+		$db = static::getDB();
+		
+		$paymentMethods = $db->query("SELECT name FROM payment_methods WHERE user_id = $id");
+		
+		return $paymentMethods->fetchAll();
 	}
 }

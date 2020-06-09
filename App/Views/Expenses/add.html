@@ -42,7 +42,7 @@
 										</label>
 									</div>
 									
-									<select class="custom-select inputs" id="paymentOptions" name="payment" required>
+									<select class="custom-select inputs" id="paymentOptions" name="paymentMethod" required>
 										<option selected disabled value="">Wybierz sposób płatności</option>
 										{% for value in session.paymentMethods %}
 											<option>{{ value.name }}</option>

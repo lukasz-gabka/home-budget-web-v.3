@@ -5,11 +5,11 @@ namespace App\Models;
 use PDO;
 
 /**
- * Incomes model
+ * Expenses model
  *
  * PHP version 7.0
  */
-class Incomes extends \Core\Model
+class Expenses extends \Core\Model
 {
 	/**
      * Error messages
@@ -33,11 +33,11 @@ class Incomes extends \Core\Model
     }
 	
 	/**
-	 * Saves income to the model
+	 * Saves expense to the model
 	 * 
 	 * @param id The user's id
 	 * 
-	 * @return boolean True if income was saved, false otherwise 
+	 * @return boolean True if expense was saved, false otherwise 
 	 */
 	public function save($id) {
 		$this->validate();
@@ -45,13 +45,14 @@ class Incomes extends \Core\Model
 		if (empty($this->errors)) {
 			$db = static::getDB();
 		
-			$sql = "INSERT INTO incomes VALUES (NULL, :id, :amount, :date, :category, :comment)";
+			$sql = "INSERT INTO expenses VALUES (NULL, :id, :amount, :date, :paymentMethod, :category, :comment)";
 			
 			$stmt = $db->prepare($sql);
 
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->bindValue(':amount', $this->amount, PDO::PARAM_STR);
             $stmt->bindValue(':date', $this->date, PDO::PARAM_STR);
+            $stmt->bindValue(':paymentMethod', $this->paymentMethod, PDO::PARAM_STR);
             $stmt->bindValue(':category', $this->category, PDO::PARAM_STR);
             $stmt->bindValue(':comment', $this->comment, PDO::PARAM_STR);
 
@@ -67,7 +68,7 @@ class Incomes extends \Core\Model
 	 * @return void
 	 */
 	protected function validate() {
-		// Check amount		
+		// Check amount	
 		if (!is_numeric($this->amount) || $this->validateDecimalPlaces() || $this->amount <= 0) {
 			$this->errors[] = 'Wpisz poprawną wartość (w zł)';
 		}

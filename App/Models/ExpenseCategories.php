@@ -25,6 +25,20 @@ class ExpenseCategories extends \Core\Model
 		foreach ($array as $value) {
 			$db->query("INSERT INTO expense_categories VALUES (NULL, $id, '{$value['name']}')");
 		}
-
+	}
+	
+	/**
+	 * Gets expense categories
+	 * 
+	 * @param int User's id
+	 * 
+	 * @return array Array of expense categories names
+	 */
+	public static function get($id) {
+		$db = static::getDB();
+		
+		$expenseCategories = $db->query("SELECT name FROM expense_categories WHERE user_id = $id");
+		
+		return $expenseCategories->fetchAll();
 	}
 }

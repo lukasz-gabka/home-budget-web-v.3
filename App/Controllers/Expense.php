@@ -5,7 +5,7 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Auth;
 use \App\Flash;
-use \App\Models\Incomes;
+use \App\Models\Expenses;
 
 /**
  * Expense controller
@@ -31,35 +31,29 @@ class Expense extends Authenticated {
 	 */
 	public function showAction() {
 		View::renderTemplate('Expenses/add.html', [
-			//'user' => $this->user,
 			'expense_active' => 'active']);
 		
 		unset($_SESSION['amount']);
 		unset($_SESSION['date']);
 		unset($_SESSION['comment']);
 	}
-	
-	
-	
-	
-	
-	
+		
 	/**
-	 * Add a new income
+	 * Add a new expense
 	 * 
 	 * @return void
 	 */
 	public function addAction() {		
-		$incomes = new Incomes($_POST);
+		$expenses = new Expenses($_POST);
 		
-		if ($incomes->save($this->user->id)) {
-			Flash::addMessage('Dodano przychód');
+		if ($expenses->save($this->user->id)) {
+			Flash::addMessage('Dodano wydatek');
 			
-			$this->redirect('/dodaj-przychod');
+			$this->redirect('/dodaj-wydatek');
 		} else {
-			$incomes->errorString = implode("\n", $incomes->errors);
+			$expenses->errorString = implode("\n", $expenses->errors);
 			
-			Flash::addMessage($incomes->errorString, Flash::DANGER);
+			Flash::addMessage($expenses->errorString, Flash::DANGER);
 			
 			$_SESSION['amount'] = $_POST['amount'];
 			$_SESSION['date'] = $_POST['date'];
@@ -68,7 +62,7 @@ class Expense extends Authenticated {
 				$_SESSION['comment'] = $_POST['comment'];
 			}
 
-            $this->redirect('/dodaj-przychod');
+            $this->redirect('/dodaj-wydatek');
 		}
 	}
 }
