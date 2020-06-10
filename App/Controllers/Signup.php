@@ -57,7 +57,7 @@ class Signup extends \Core\Controller
 
         } else {
 			
-			$user->errorString = implode("\n", $user->errors);
+			$user->errorString = implode(PHP_EOL, $user->errors);
 			
 			Flash::addMessage($user->errorString, Flash::DANGER);
 			

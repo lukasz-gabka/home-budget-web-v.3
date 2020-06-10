@@ -96,9 +96,7 @@
 		{% block navigation %}{% endblock %}
 		
 		{% for message in flash_messages %}
-            <div class="alert alert-{{ message.type }} m-3 text-center">
-                {{ message.body }}
-            </div>
+            <div class="alert alert-{{ message.type }} m-3 text-center message">{{ message.body }}</div>
         {% endfor %}
 		
 		{% block body %}
