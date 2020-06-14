@@ -7,6 +7,7 @@ use \App\Auth;
 use \App\Flash;
 use \App\Models\Incomes;
 use \App\Models\Expenses;
+use \App\Validate;
 
 /**
  * Balance controller
@@ -31,13 +32,14 @@ class Balance extends Authenticated {
 	 * @return void
 	 */
 	public function showAction() {
-		if (isset($_SESSION['incomes'])) {
+		if (isset($_SESSION['date'])) {
 			View::renderTemplate('Balance/show.html', [
 			'balance_active' => 'active']);
 		} else {
 			Flash::addMessage('Wybierz zakres bilansu z menu powyżej', FLASH::INFO);
 			
 			$this->redirect('/');
+			exit();
 		}
 		
 		unset($_SESSION['incomes']);
@@ -58,23 +60,12 @@ class Balance extends Authenticated {
 	 * @return void
 	 */
 	public function displayAction() {
-		switch ($_GET['id']) {
-			case 1: {
-				$date = static::getCurrentMonth();
-			} break;
-			case 2: {
-				$date = static::getPreviousMonth();
-			} break;
-			case 3: {
-				$date = static::getCurrentYear();
-			} break;
-			case 4: {
-				$date = static::getCustom();
-			} break;
-			default: {
-				View::renderTemplate('404.html');
-				exit();
-			}
+		$date = static::getDate($_GET['id']);
+		
+		if (!$date) {
+			Flash::addMessage('Podane daty mają niepoprawną wartość', FLASH::DANGER);
+			
+			$this->redirect('/');
 		}
 		
 		$_SESSION['incomes'] = Incomes::get($date, $this->user->id);
@@ -105,6 +96,40 @@ class Balance extends Authenticated {
 		}
 
 		$this->redirect('/bilans');
+	}
+	
+	/**
+	 * Gets the date
+	 * 
+	 * @param int  The user's choice
+	 * 
+	 * @return mixed  The two dates array if the dates are correct, false otherwise
+	 */
+	protected static function getDate($choice) {
+		switch ($_GET['id']) {
+			case 1: {
+				return static::getCurrentMonth();
+			} break;
+			case 2: {
+				return static::getPreviousMonth();
+			} break;
+			case 3: {
+				return static::getCurrentYear();
+			} break;
+			case 4: {
+				$date = static::getCustomDate();
+				
+				if (!$date) {
+					return false;
+				}
+				
+				return $date;
+			} break;
+			default: {
+				View::renderTemplate('404.html');
+				exit();
+			}
+		}
 	}
 	
 	/*
@@ -152,13 +177,17 @@ class Balance extends Authenticated {
 	/*
 	 * Gets user specified dates
 	 * 
-	 * @return array  The array of dates
+	 * @return mixed  The array of dates if dates are correct, false otherwise
 	 */
-	protected static function getCustom() {
-		$date = ['firstDate' => $_POST['firstDate'],
+	protected static function getCustomDate() {
+		if (Validate::validateDateOrder($_POST['firstDate'], $_POST['lastDate']) && !Validate::validate($_POST['firstDate']) && !Validate::validate($_POST['lastDate'])) {
+			$date = ['firstDate' => $_POST['firstDate'],
 				 'lastDate' => $_POST['lastDate']];
 		
-		return $date;
+			return $date;
+		} else {
+			return false;
+		}
 	}
 }
 

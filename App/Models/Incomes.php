@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PDO;
+use \App\Validate;
 
 /**
  * Incomes model
@@ -40,7 +41,7 @@ class Incomes extends \Core\Model
 	 * @return boolean True if income was saved, false otherwise 
 	 */
 	public function save($id) {
-		$this->validate();
+		$this->errors = Validate::validate($this->date, $this->amount);
 		
 		if (empty($this->errors)) {
 			$db = static::getDB();
@@ -59,62 +60,6 @@ class Incomes extends \Core\Model
 		}
 		
 		return false;
-	}
-	
-	/**
-	 * Validates the user input
-	 * 
-	 * @return void
-	 */
-	protected function validate() {
-		// Check amount		
-		if (!is_numeric($this->amount) || $this->validateDecimalPlaces() || $this->amount <= 0) {
-			$this->errors[] = 'Wpisz poprawną wartość (w zł)';
-		}
-		
-		// Check date
-		if (!$this->validateDateFormat() || !$this->validateDate()) {
-			$this->errors[] = 'Wpisz poprawną datę w formacie rrrr-mm-dd';
-		}
-	}
-	
-	/**
-	 * Validates if the number given has more than two decimal places
-	 * 
-	 * @return boolean True if the number has more than to decimal places, false otherwise
-	 */
-	protected function validateDecimalPlaces() {
-		$number = str_replace(",", ".", $this->amount);
-		
-		if (strlen(substr(strrchr($number, "."), 1)) > 2) {
-			return true;
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * Validates the date format
-	 * 
-	 * @return boolean True if the date formatis correct, false otherwise
-	 */
-	protected function validateDateFormat() {
-		$regex = '/^[\d]{4}-[\d]{2}-[\d]{2}$/';
-		return preg_match($regex, $this->date);
-	}
-	
-	/**
-	 * Validates if the date is correct
-	 * 
-	 * @return boolean True if the date formatis correct, false otherwise
-	 */
-	protected function validateDate() {
-		$regex = '/[\d]+/';
-		preg_match_all($regex, $this->date, $date);
-		
-		$date = $date[0];
-		
-		return checkdate($date[1], $date[2], $date[0]);	
 	}
 	
 	/**
