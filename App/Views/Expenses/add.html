@@ -44,7 +44,7 @@
 									
 									<select class="custom-select inputs" id="paymentOptions" name="paymentMethod" required>
 										<option selected disabled value="">Wybierz sposób płatności</option>
-										{% for value in session.paymentMethods %}
+										{% for value in session.userPaymentMethods %}
 											<option>{{ value.name }}</option>
 										{% endfor %}
 									</select>
@@ -59,7 +59,7 @@
 									
 									<select class="custom-select inputs" id="category" name="category" required>
 										<option selected disabled value="">Wybierz kategorię wydatku</option>
-										{% for value in session.expenseCategories %}
+										{% for value in session.userExpenseCategories %}
 											<option>{{ value.name }}</option>
 										{% endfor %}
 									</select>

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}e-świnka - bilans{% endblock %}
+
+{% block body %}
+
+    <main>
+		<div class="container-fluid mt-5">
+			<article>
+				<header>
+					<h1 class="text-center">Bilans za okres:</h1>
+					<h1 class="text-center dateRange"><strong>{{ session.date.firstDate|date("d-m-Y") }} - {{ session.date.lastDate|date("d-m-Y") }}</strong></h1>
+				</header>
+				
+				<div class="row mt-5 pb-0">
+					<div class="col-lg-6">
+						<h2 class="text-center">Przychody</h2>
+						
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered table-hover text-center small">
+								<thead>
+									<tr>
+										<th scope="col">Kategoria</th>
+										<th scope="col">Kwota</th>
+										<th scope="col">Data</th>
+										<th scope="col">Komentarz</th>
+									</tr>
+								</thead>
+								
+								<tbody>
+									{% for value in session.incomes %}	
+										<tr><td>{{ value['category'] }}</td>
+										<td class="text-nowrap">{{ value['amount']|number_format(2, ',', ' ') }} zł</td>
+										<td>{{ value['date']|date("d-m-Y") }}</td>
+										<td>{{ value['comment'] }}</td></tr>
+									{% endfor %}								
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="row pb-5">
+							<p class="h4 ml-auto mr-auto"><strong>Suma przychodów:</strong> {{ session.incomeSum|number_format(2, ',', ' ') }} zł</p>
+						</div>
+					</div>	
+						
+					<div class="col-lg-6">
+						<h2 class="text-center">Wydatki</h2>
+						
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered text-center table-hover small">
+								<tr>
+									<thead>
+										<th scope="col">Kategoria</th>
+										<th scope="col">Kwota</th>
+										<th scope="col">Sposób płatności</th>
+										<th scope="col">Data</th>
+										<th scope="col">Komentarz</th>
+									</thead>
+								</tr>
+								
+								<tbody>
+									{% for value in session.expenses %}	
+										<tr><td>{{ value['category'] }}</td>
+										<td class="text-nowrap">{{ value['amount']|number_format(2, ',', ' ') }} zł</td>
+										<td>{{ value['payment_method'] }}</td>
+										<td>{{ value['date']|date("d-m-Y") }}</td>
+										<td>{{ value['comment'] }}</td></tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+						
+						<div class="row pb-5">
+							<p class="h4 ml-auto mr-auto"><strong>Suma wydatków: </strong> {{ session.expenseSum|number_format(2, ',', ' ') }} zł</p>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row mb-3 pb-0">
+					<p class="h3 mx-auto"><strong>Saldo:</strong> <span class="{{ session.spanClass }}">{{ session.balance|number_format(2, ',', ' ') }} zł</span></p>
+				</div>
+				
+				<div class="row mb-5 pb-0">
+					<p class="mx-auto h4">{{ session.balanceText }}</p>
+				</div>
+				
+				<div class="row my-5">
+					<div class="col-lg-6 mb-5">
+						<h2 class="text-center">Przychody wg kategorii</h2>
+						
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered table-hover text-center small">
+								<thead>
+									<tr>
+										<th scope="col">Kategoria</th>
+										<th scope="col">Kwota</th>
+									</tr>
+								</thead>
+								
+								<tbody>									
+									{% for value in session.incomeCategories %}	
+										<tr><td>{{ value['category'] }}</td>
+										<td class="text-nowrap">{{ value['ROUND(SUM(amount), 2)']|number_format(2, ',', ' ') }} zł</td></tr>
+									{% endfor %}	
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="col-lg-6">
+						<h2 class="text-center">Wydatki wg kategorii</h2>
+						
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered table-hover text-center small">
+								<thead>
+									<tr>
+										<th scope="col">Kategoria</th>
+										<th scope="col">Kwota</th>
+									</tr>
+								</thead>
+								
+								<tbody>									
+									{% for value in session.expenseCategories %}	
+										<tr><td>{{ value['category'] }}</td>
+										<td class="text-nowrap">{{ value['ROUND(SUM(amount), 2)']|number_format(2, ',', ' ') }} zł</td></tr>
+									{% endfor %}	
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
+	</main>
+
+{% endblock %}

@@ -37,6 +37,8 @@ $router->add('logowanie', ['controller' => 'Login', 'action' => 'new']);
 $router->add('rejestracja', ['controller' => 'Signup', 'action' => 'new']);
 $router->add('dodaj-przychod', ['controller' => 'Income', 'action' => 'show']);
 $router->add('dodaj-wydatek', ['controller' => 'Expense', 'action' => 'show']);
+$router->add('pokaz-bilans', ['controller' => 'Balance', 'action' => 'display']);
+$router->add('bilans', ['controller' => 'Balance', 'action' => 'show']);
 $router->add('wyloguj', ['controller' => 'Login', 'action' => 'destroy']);
 $router->add('{controller}/{action}');
 

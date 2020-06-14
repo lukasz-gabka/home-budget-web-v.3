@@ -29,9 +29,9 @@ class Auth
 
         $_SESSION['user_id'] = $user->id;
         
-        $_SESSION['incomeCategories'] = IncomeCategories::get($user->id);
-        $_SESSION['expenseCategories'] = ExpenseCategories::get($user->id);
-        $_SESSION['paymentMethods'] = PaymentMethods::get($user->id);
+        $_SESSION['userIncomeCategories'] = IncomeCategories::get($user->id);
+        $_SESSION['userExpenseCategories'] = ExpenseCategories::get($user->id);
+        $_SESSION['userPaymentMethods'] = PaymentMethods::get($user->id);
 
         if ($remember_me) {
 
