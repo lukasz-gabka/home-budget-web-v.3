@@ -22,7 +22,7 @@ class Validate
 		if (isset($amount)) {
 			if (!is_numeric($amount) || static::validateDecimalPlaces($amount) || $amount <= 0) {
 			$errors[] = 'Wpisz poprawną wartość (w zł)';
-		}
+			}
 		}
 		
 		// Check date

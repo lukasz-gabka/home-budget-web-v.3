@@ -58,14 +58,14 @@
 							</li>
 							
 							<li class="nav-item mx-3 dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<a class="nav-link dropdown-toggle {{ balance_active }}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<i class="icon-chart-bar"></i> Bilans
 								</a>
 								
 								<div class="dropdown-menu navigation2" aria-labelledby="navbarDropdown">
-								  <a class="dropdown-item nav-link" href="/pokaz-bilans?id=1">Bieżący miesiąc</a>
-								  <a class="dropdown-item nav-link" href="/pokaz-bilans?id=2">Poprzedni miesiąc</a>
-								  <a class="dropdown-item nav-link" href="/pokaz-bilans?id=3">Bieżący rok</a>
+								  <a class="dropdown-item nav-link" href="/bilans?id=1">Bieżący miesiąc</a>
+								  <a class="dropdown-item nav-link" href="/bilans?id=2">Poprzedni miesiąc</a>
+								  <a class="dropdown-item nav-link" href="/bilans?id=3">Bieżący rok</a>
 								  <a class="dropdown-item nav-link" href="#" data-toggle="modal" data-target="#customBalance">Niestandardowy...</a>
 								</div>
 							</li>
@@ -117,7 +117,7 @@
 						</button>
 					</div>
 					
-					<form method="post" action="/pokaz-bilans?id=4">
+					<form method="post" action="/bilans?id=4">
 						<div class="modal-body">
 							
 							<div class="input-group justify-content-center my-5">

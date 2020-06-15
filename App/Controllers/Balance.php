@@ -27,75 +27,55 @@ class Balance extends Authenticated {
 	}
 	
 	/**
-	 * Show the balance page if balance range is specified, otherwise show the homepage
-	 * 
-	 * @return void
-	 */
-	public function showAction() {
-		if (isset($_SESSION['date'])) {
-			View::renderTemplate('Balance/show.html', [
-			'balance_active' => 'active']);
-		} else {
-			Flash::addMessage('Wybierz zakres bilansu z menu powyżej', FLASH::INFO);
-			
-			$this->redirect('/');
-			exit();
-		}
-		
-		unset($_SESSION['incomes']);
-		unset($_SESSION['incomeCategories']);
-		unset($_SESSION['expenses']);
-		unset($_SESSION['expenseCategories']);
-		unset($_SESSION['date']);
-		unset($_SESSION['incomeSum']);
-		unset($_SESSION['expenseSum']);
-		unset($_SESSION['balance']);
-		unset($_SESSION['spanClass']);
-		unset($_SESSION['balanceText']);
-	}
-	
-	/**
 	 * Displays balance page 
 	 * 
 	 * @return void
 	 */
 	public function displayAction() {
-		$date = static::getDate($_GET['id']);
-		
-		if (!$date) {
-			Flash::addMessage('Podane daty mają niepoprawną wartość', FLASH::DANGER);
+		if ($_GET['id'] == 4 && !isset($_POST['firstDate'])) {
+			Flash::addMessage('Wybierz zakres bilansu z menu powyżej', FLASH::INFO);
 			
 			$this->redirect('/');
+			exit();
 		}
+			$date = static::getDate($_GET['id']);
 		
-		$_SESSION['incomes'] = Incomes::get($date, $this->user->id);
-		$_SESSION['incomeCategories'] = Incomes::getCategories($date, $this->user->id);
-		$_SESSION['expenses'] = Expenses::get($date, $this->user->id);
-		$_SESSION['expenseCategories'] = Expenses::getCategories($date, $this->user->id);
-		$_SESSION['date'] = $date;
-		
-		$_SESSION['incomeSum'] = 0;
-		$_SESSION['expenseSum'] = 0;
+			if (!$date) {
+				Flash::addMessage('Podane daty mają niepoprawną wartość', FLASH::DANGER);
+				
+				$this->redirect('/');
+			}
+			
+			$balance['incomes'] = Incomes::get($date, $this->user->id);
+			$balance['incomeCategories'] = Incomes::getCategories($date, $this->user->id);
+			$balance['expenses'] = Expenses::get($date, $this->user->id);
+			$balance['expenseCategories'] = Expenses::getCategories($date, $this->user->id);
+			$balance['date'] = $date;
+			
+			$balance['incomeSum'] = 0;
+			$balance['expenseSum'] = 0;
 
-		foreach ($_SESSION['incomes'] as $value) {
-			$_SESSION['incomeSum'] += $value['amount'];
-		}
-		
-		foreach ($_SESSION['expenses'] as $value) {
-			$_SESSION['expenseSum'] += $value['amount'];
-		}
-		
-		$_SESSION['balance'] = $_SESSION['incomeSum'] - $_SESSION['expenseSum'];
-		
-		if ($_SESSION['balance'] >= 0) {
-			$_SESSION['spanClass'] = 'text-success';
-			$_SESSION['balanceText'] = 'Gratulacje! Świetnie zarządzasz finansami!';
-		} else {
-			$_SESSION['spanClass'] = 'text-danger';
-			$_SESSION['balanceText'] = 'Uważaj! Popadasz w długi!';
-		}
+			foreach ($balance['incomes'] as $value) {
+				$balance['incomeSum'] += $value['amount'];
+			}
+			
+			foreach ($balance['expenses'] as $value) {
+				$balance['expenseSum'] += $value['amount'];
+			}
+			
+			$balance['balance'] = $balance['incomeSum'] - $balance['expenseSum'];
+			
+			if ($balance['balance'] >= 0) {
+				$balance['spanClass'] = 'text-success';
+				$balance['balanceText'] = 'Gratulacje! Świetnie zarządzasz finansami!';
+			} else {
+				$balance['spanClass'] = 'text-danger';
+				$balance['balanceText'] = 'Uważaj! Popadasz w długi!';
+			}
 
-		$this->redirect('/bilans');
+			View::renderTemplate('Balance/show.html', [
+				'balance_active' => 'active',
+				'balance' => $balance]);
 	}
 	
 	/**

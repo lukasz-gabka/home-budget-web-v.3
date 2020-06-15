@@ -9,7 +9,7 @@
 			<article>
 				<header>
 					<h1 class="text-center">Bilans za okres:</h1>
-					<h1 class="text-center dateRange"><strong>{{ session.date.firstDate|date("d-m-Y") }} - {{ session.date.lastDate|date("d-m-Y") }}</strong></h1>
+					<h1 class="text-center dateRange"><strong>{{ balance.date.firstDate|date("d-m-Y") }} - {{ balance.date.lastDate|date("d-m-Y") }}</strong></h1>
 				</header>
 				
 				<div class="row mt-5 pb-0">
@@ -28,7 +28,7 @@
 								</thead>
 								
 								<tbody>
-									{% for value in session.incomes %}	
+									{% for value in balance.incomes %}	
 										<tr><td>{{ value['category'] }}</td>
 										<td class="text-nowrap">{{ value['amount']|number_format(2, ',', ' ') }} zł</td>
 										<td>{{ value['date']|date("d-m-Y") }}</td>
@@ -39,7 +39,7 @@
 						</div>
 						
 						<div class="row pb-5">
-							<p class="h4 ml-auto mr-auto"><strong>Suma przychodów:</strong> {{ session.incomeSum|number_format(2, ',', ' ') }} zł</p>
+							<p class="h4 ml-auto mr-auto"><strong>Suma przychodów:</strong> {{ balance.incomeSum|number_format(2, ',', ' ') }} zł</p>
 						</div>
 					</div>	
 						
@@ -59,7 +59,7 @@
 								</tr>
 								
 								<tbody>
-									{% for value in session.expenses %}	
+									{% for value in balance.expenses %}	
 										<tr><td>{{ value['category'] }}</td>
 										<td class="text-nowrap">{{ value['amount']|number_format(2, ',', ' ') }} zł</td>
 										<td>{{ value['payment_method'] }}</td>
@@ -71,17 +71,17 @@
 						</div>
 						
 						<div class="row pb-5">
-							<p class="h4 ml-auto mr-auto"><strong>Suma wydatków: </strong> {{ session.expenseSum|number_format(2, ',', ' ') }} zł</p>
+							<p class="h4 ml-auto mr-auto"><strong>Suma wydatków: </strong> {{ balance.expenseSum|number_format(2, ',', ' ') }} zł</p>
 						</div>
 					</div>
 				</div>
 				
 				<div class="row mb-3 pb-0">
-					<p class="h3 mx-auto"><strong>Saldo:</strong> <span class="{{ session.spanClass }}">{{ session.balance|number_format(2, ',', ' ') }} zł</span></p>
+					<p class="h3 mx-auto"><strong>Saldo:</strong> <span class="{{ balance.spanClass }}">{{ balance.balance|number_format(2, ',', ' ') }} zł</span></p>
 				</div>
 				
 				<div class="row mb-5 pb-0">
-					<p class="mx-auto h4">{{ session.balanceText }}</p>
+					<p class="mx-auto h4">{{ balance.balanceText }}</p>
 				</div>
 				
 				<div class="row my-5">
@@ -98,7 +98,7 @@
 								</thead>
 								
 								<tbody>									
-									{% for value in session.incomeCategories %}	
+									{% for value in balance.incomeCategories %}	
 										<tr><td>{{ value['category'] }}</td>
 										<td class="text-nowrap">{{ value['ROUND(SUM(amount), 2)']|number_format(2, ',', ' ') }} zł</td></tr>
 									{% endfor %}	
@@ -120,7 +120,7 @@
 								</thead>
 								
 								<tbody>									
-									{% for value in session.expenseCategories %}	
+									{% for value in balance.expenseCategories %}	
 										<tr><td>{{ value['category'] }}</td>
 										<td class="text-nowrap">{{ value['ROUND(SUM(amount), 2)']|number_format(2, ',', ' ') }} zł</td></tr>
 									{% endfor %}	
