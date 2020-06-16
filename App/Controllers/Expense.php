@@ -6,6 +6,8 @@ use \Core\View;
 use \App\Auth;
 use \App\Flash;
 use \App\Models\Expenses;
+use \App\Models\ExpenseCategories;
+use \App\Models\PaymentMethods;
 
 /**
  * Expense controller
@@ -27,15 +29,18 @@ class Expense extends Authenticated {
 	/**
 	 * Show the expense page
 	 * 
+	 * @param array  The arguments to display (optional)
+	 * 
 	 * @return void
 	 */
-	public function showAction() {
-		View::renderTemplate('Expenses/add.html', [
-			'expense_active' => 'active']);
+	public function showAction($arg = 0) {
+		$display['userExpenseCategories'] = ExpenseCategories::get($_SESSION['user_id']);
+        $display['userPaymentMethods'] = PaymentMethods::get($_SESSION['user_id']);
 		
-		unset($_SESSION['amount']);
-		unset($_SESSION['date']);
-		unset($_SESSION['comment']);
+		View::renderTemplate('Expenses/add.html', [
+			'expense_active' => 'active',
+			'expense' => $arg,
+			'display' => $display]);
 	}
 		
 	/**
@@ -55,14 +60,14 @@ class Expense extends Authenticated {
 			
 			Flash::addMessage($expenses->errorString, Flash::DANGER);
 			
-			$_SESSION['amount'] = $_POST['amount'];
-			$_SESSION['date'] = $_POST['date'];
+			$expense['amount'] = $_POST['amount'];
+			$expense['date'] = $_POST['date'];
 			
 			if (isset($_POST['comment'])) {
-				$_SESSION['comment'] = $_POST['comment'];
+				$expense['comment'] = $_POST['comment'];
 			}
 
-            $this->redirect('/dodaj-wydatek');
+            $this->showAction($expense);
 		}
 	}
 }

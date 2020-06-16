@@ -17,16 +17,16 @@ class Login extends \Core\Controller
 
     /**
      * Show the login page
+     * 
+     * @param array  The arguments to display (optional)
      *
      * @return void
      */
-    public function newAction()
+    public function newAction($arg = 0)
     {
         View::renderTemplate('Login/new.html', [
-			'login_active' => 'active']);
-		
-		unset($_SESSION['email']);
-		unset($_SESSION['remember_me']);
+			'login_active' => 'active',
+			'login' => $arg]);
     }
 
     /**
@@ -52,10 +52,10 @@ class Login extends \Core\Controller
 
             Flash::addMessage($user->errors[0], Flash::DANGER);
             
-            $_SESSION['email'] = $_POST['email'];
-            $_SESSION['remember_me'] = $remember_me;
+            $login['email'] = $_POST['email'];
+            $login['remember_me'] = $remember_me;
 
-            $this->redirect('/logowanie');
+            $this->newAction($login);
             
         }
     }

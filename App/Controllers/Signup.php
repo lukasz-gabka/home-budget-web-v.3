@@ -22,16 +22,16 @@ class Signup extends \Core\Controller
 
     /**
      * Show the signup page
+     * 
+     * @param array  The arguments to display (optional)
      *
      * @return void
      */
-    public function newAction()
+    public function newAction($args = 0)
     {
         View::renderTemplate('Signup/new.html', [
-			'register_active' => 'active']);
-		
-		unset($_SESSION['name']);
-		unset($_SESSION['email']);
+			'register_active' => 'active',
+			'signup' => $args]);
     }
 
     /**
@@ -61,10 +61,10 @@ class Signup extends \Core\Controller
 			
 			Flash::addMessage($user->errorString, Flash::DANGER);
 			
-			$_SESSION['name'] = $_POST['name'];
-			$_SESSION['email'] = $_POST['email'];
-
-            $this->redirect('/rejestracja');
+			$signup['name'] = $_POST['name'];
+			$signup['email'] = $_POST['email'];
+			
+			$this->newAction($signup);
         }
     }
 

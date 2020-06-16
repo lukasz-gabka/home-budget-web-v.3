@@ -4,9 +4,6 @@ namespace App;
 
 use App\Models\User;
 use App\Models\RememberedLogin;
-use \App\Models\IncomeCategories;
-use \App\Models\ExpenseCategories;
-use \App\Models\PaymentMethods;
 
 /**
  * Authentication
@@ -28,10 +25,6 @@ class Auth
         session_regenerate_id(true);
 
         $_SESSION['user_id'] = $user->id;
-        
-        $_SESSION['userIncomeCategories'] = IncomeCategories::get($user->id);
-        $_SESSION['userExpenseCategories'] = ExpenseCategories::get($user->id);
-        $_SESSION['userPaymentMethods'] = PaymentMethods::get($user->id);
 
         if ($remember_me) {
 

@@ -22,7 +22,7 @@
 										</span>
 									</div>
 									
-									<input type="number" class="form-control inputs" placeholder="Kwota przychodu" step="0.01" min="0.01" name="amount" value="{{ session.amount }}" required>
+									<input type="number" class="form-control inputs" placeholder="Kwota przychodu" step="0.01" min="0.01" name="amount" value="{{ income.amount }}" required>
 								</div>
 								
 								<div class="input-group justify-content-center mt-5">
@@ -32,7 +32,7 @@
 										</span>
 									</div>
 									
-									<input placeholder="Data(kliknij, aby ustawić)" class="textbox-n form-control inputs" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" name="date" value="{{ session.date }}" required>
+									<input placeholder="Data(kliknij, aby ustawić)" class="textbox-n form-control inputs" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" name="date" value="{{ income.date }}" required>
 								</div>
 								
 								<div class="input-group justify-content-center mt-5">
@@ -42,9 +42,9 @@
 										</label>
 									</div>
 									
-									<select class="custom-select inputs" id="paymentOptions" name="category" value="{{ session.category }}" required>
+									<select class="custom-select inputs" id="paymentOptions" name="category" required>
 										<option selected disabled value="">Wybierz kategorię przychodu</option>
-										{% for value in session.userIncomeCategories %}
+										{% for value in display.userIncomeCategories %}
 											<option>{{ value.name }}</option>
 										{% endfor %}
 									</select>
@@ -57,7 +57,7 @@
 										</span>
 									</div>
 									
-									<textarea class="form-control inputs" maxlength="40" placeholder="Komentarz(opcjonalnie)" name="comment">{{ session.comment }}</textarea>
+									<textarea class="form-control inputs" maxlength="40" placeholder="Komentarz(opcjonalnie)" name="comment">{{ income.comment }}</textarea>
 								</div>
 								
 								<div class="d-flex justify-content-center my-5 d-inline-block">	

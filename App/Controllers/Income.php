@@ -6,6 +6,7 @@ use \Core\View;
 use \App\Auth;
 use \App\Flash;
 use \App\Models\Incomes;
+use \App\Models\IncomeCategories;
 
 /**
  * Income controller
@@ -27,16 +28,18 @@ class Income extends Authenticated {
 	/**
 	 * Show the income page
 	 * 
+	 * @param array  The arguments to display (optional)
+	 * 
 	 * @return void
 	 */
-	public function showAction() {
+	public function showAction($arg = 0) {
+		$display['userIncomeCategories'] = IncomeCategories::get($_SESSION['user_id']);
+		
 		View::renderTemplate('Incomes/add.html', [
 			//'user' => $this->user,
-			'income_active' => 'active']);
-		
-		unset($_SESSION['amount']);
-		unset($_SESSION['date']);
-		unset($_SESSION['comment']);
+			'income_active' => 'active',
+			'income' => $arg,
+			'display' => $display]);
 	}
 	
 	/**
@@ -56,14 +59,14 @@ class Income extends Authenticated {
 			
 			Flash::addMessage($incomes->errorString, Flash::DANGER);
 			
-			$_SESSION['amount'] = $_POST['amount'];
-			$_SESSION['date'] = $_POST['date'];
+			$income['amount'] = $_POST['amount'];
+			$income['date'] = $_POST['date'];
 			
 			if (isset($_POST['comment'])) {
-				$_SESSION['comment'] = $_POST['comment'];
+				$income['comment'] = $_POST['comment'];
 			}
 
-            $this->redirect('/dodaj-przychod');
+            $this->showAction($income);
 		}
 	}
 }

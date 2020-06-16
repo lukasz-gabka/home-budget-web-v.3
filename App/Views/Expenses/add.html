@@ -22,7 +22,7 @@
 										</span>
 									</div>
 									
-									<input type="number" class="form-control inputs" placeholder="Kwota wydatku" step="0.01" min="0.01" name="amount" value="{{ session.amount }}" required>
+									<input type="number" class="form-control inputs" placeholder="Kwota wydatku" step="0.01" min="0.01" name="amount" value="{{ expense.amount }}" required>
 								</div>
 								
 								<div class="input-group justify-content-center mt-5">
@@ -32,7 +32,7 @@
 										</span>
 									</div>
 									
-									<input placeholder="Data(kliknij, aby ustawić)" class="textbox-n form-control inputs" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" name="date" value="{{ session.date }}" required>
+									<input placeholder="Data(kliknij, aby ustawić)" class="textbox-n form-control inputs" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" name="date" value="{{ expense.date }}" required>
 								</div>
 								
 								<div class="input-group justify-content-center mt-5">
@@ -44,7 +44,7 @@
 									
 									<select class="custom-select inputs" id="paymentOptions" name="paymentMethod" required>
 										<option selected disabled value="">Wybierz sposób płatności</option>
-										{% for value in session.userPaymentMethods %}
+										{% for value in display.userPaymentMethods %}
 											<option>{{ value.name }}</option>
 										{% endfor %}
 									</select>
@@ -59,7 +59,7 @@
 									
 									<select class="custom-select inputs" id="category" name="category" required>
 										<option selected disabled value="">Wybierz kategorię wydatku</option>
-										{% for value in session.userExpenseCategories %}
+										{% for value in display.userExpenseCategories %}
 											<option>{{ value.name }}</option>
 										{% endfor %}
 									</select>
@@ -72,7 +72,7 @@
 										</span>
 									</div>
 									
-									<textarea class="form-control inputs" maxlength="40" placeholder="Komentarz(opcjonalnie)" name="comment">{{ session.comment }}</textarea>
+									<textarea class="form-control inputs" maxlength="40" placeholder="Komentarz(opcjonalnie)" name="comment">{{ expense.comment }}</textarea>
 								</div>
 								
 								<div class="d-flex justify-content-center my-5 d-inline-block">	
