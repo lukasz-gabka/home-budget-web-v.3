@@ -22,7 +22,7 @@
 						</div>
 						
 						<div class=" col-3 text-left">
-							<input type="button" class="btn form-control inputs submitButtons" value="Zmień">
+							<input type="button" class="btn form-control inputs submitButtons" data-toggle="modal" data-target="#changeName" value="Zmień">
 						</div>
 					</div>
 					
@@ -36,24 +36,163 @@
 						</div>
 						
 						<div class=" col-3 text-left">
-							<input type="button" class="btn form-control inputs submitButtons" value="Zmień">
+							<input type="button" class="btn form-control inputs submitButtons" data-toggle="modal" data-target="#changeEmail" value="Zmień">
 						</div>
 					</div>
 					
 					<div class="row pb-0 my-5 text-center">
 						<div class=" col-12 text-center">
-							<input type="button" class="btn form-control inputs submitButtons" value="Zmień hasło">
+							<input type="button" class="btn form-control inputs submitButtons" data-toggle="modal" data-target="#changePassword" value="Zmień hasło">
 						</div>
 					</div>
 					
 					<div class="row pb-0 text-center">
 						<div class=" col-12 text-center">
-							<input type="button" class="btn form-control inputs submitButtons bg-danger delete" value="Usuń konto">
+							<input type="button" class="btn form-control inputs submitButtons" data-toggle="modal" data-target="#deleteAccount" value="Usuń konto">
 						</div>
 					</div>
 				</div>
 			</article>
 		</div>
 	</main>
+	
+	<div class="modal" id="changeName" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Zmień imię</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<form method="post" action="#">
+					<div class="modal-body">
+						<div class="input-group justify-content-center my-5">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-user"></i>
+								</span>
+							</div>
+							
+							<input type="text" class="form-control inputs" placeholder="Nowe imię" name="name" value="{{ current_user.name }}" required>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<input type="submit" class="btn form-control inputs submitButtons" value="Zatwierdź" name="submit">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal" id="changeEmail" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Zmień e-mail</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<form method="post" action="#">
+					<div class="modal-body">
+						<div class="input-group justify-content-center my-5">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-mail-alt"></i>
+								</span>
+							</div>
+							
+							<input type="text" class="form-control inputs" placeholder="Nowy e-mail" name="name" value="{{ current_user.email }}" required>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<input type="submit" class="btn form-control inputs submitButtons" value="Zatwierdź" name="submit">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal" id="changePassword" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Zmień hasło</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<form method="post" action="#">
+					<div class="modal-body">
+						<div class="input-group justify-content-center my-5">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-lock"></i>
+								</span>
+							</div>
+							
+							<input type="password" class="form-control inputs" placeholder="Nowe hasło" name="name" required>
+						</div>
+						
+						<div class="input-group justify-content-center my-5">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-lock"></i>
+								</span>
+							</div>
+							
+							<input type="password" class="form-control inputs" placeholder="Powtórz hasło" name="name" required>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<input type="submit" class="btn form-control inputs submitButtons" value="Zatwierdź" name="submit">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal" id="deleteAccount" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Usuń konto</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<div class="modal-body my-3 py-0 text-center">
+					<p>Ta operacja jest <strong>nieodwracalna</strong>.</p>
+					<p class="mb-0">Czy chcesz kontynuować?</p>
+				</div>
+				
+				<div class="modal-footer">
+
+						<input type="submit" class="btn form-control inputs submitButtons" value="Zatwierdź" name="submit">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+
+				</div>
+			</div>
+		</div>
+	</div>
 	
 {% endblock %}
