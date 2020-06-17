@@ -58,11 +58,11 @@
 							</li>
 							
 							<li class="nav-item mx-3 dropdown">
-								<a class="nav-link dropdown-toggle {{ balance_active }}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<a class="nav-link dropdown-toggle {{ balance_active }}" href="#" id="navbarDropdownBalance" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<i class="icon-chart-bar"></i> Bilans
 								</a>
 								
-								<div class="dropdown-menu navigation2" aria-labelledby="navbarDropdown">
+								<div class="dropdown-menu navigation2" aria-labelledby="navbarDropdownBalance">
 								  <a class="dropdown-item nav-link" href="/bilans?id=1">Bieżący miesiąc</a>
 								  <a class="dropdown-item nav-link" href="/bilans?id=2">Poprzedni miesiąc</a>
 								  <a class="dropdown-item nav-link" href="/bilans?id=3">Bieżący rok</a>
@@ -70,10 +70,17 @@
 								</div>
 							</li>
 							
-							<li class="nav-item mx-3">
-								<a class="nav-link" href="#">
+							
+							
+							<li class="nav-item mx-3 dropdown">
+								<a class="nav-link dropdown-toggle {{ settings_active }}" href="#" id="navbarDropdownSettings" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<i class="icon-cog"></i> Ustawienia
 								</a>
+								
+								<div class="dropdown-menu navigation2" aria-labelledby="navbarDropdownSettings">
+								  <a class="dropdown-item nav-link" href="/bilans?id=1">Edytuj kategorie</a>
+								  <a class="dropdown-item nav-link" href="/bilans?id=2">Edytuj dane użytkownika</a>
+								</div>
 							</li>
 						</ul>
 					</div>
