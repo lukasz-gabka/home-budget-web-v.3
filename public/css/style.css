@@ -113,10 +113,16 @@ a p
 	color: white;
 }
 
+.delete
+{
+	border-color: #dc3545 !important;
+}
+
 input[type=submit],
 input[type=button],
 input[type=reset],
-input[type=submit]:focus
+input[type=submit]:focus,
+input[type=button]:focus
 {
 	background-color: #009b44;
 	color: white;

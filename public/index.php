@@ -35,6 +35,7 @@ $router = new Core\Router();
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('logowanie', ['controller' => 'Login', 'action' => 'new']);
 $router->add('rejestracja', ['controller' => 'Signup', 'action' => 'new']);
+$router->add('dane-uzytkownika', ['controller' => 'Settings', 'action' => 'new']);
 $router->add('dodaj-przychod', ['controller' => 'Income', 'action' => 'show']);
 $router->add('dodaj-wydatek', ['controller' => 'Expense', 'action' => 'show']);
 $router->add('bilans', ['controller' => 'Balance', 'action' => 'display']);
