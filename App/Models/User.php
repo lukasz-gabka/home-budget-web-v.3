@@ -231,4 +231,50 @@ class User extends \Core\Model
 
         return $stmt->execute();
     }
+    
+    /**
+     * Changes name
+     * 
+     * @return boolean  True if the name has changed successfully, false otherwise
+     */
+    public function changeName() {
+		$this->validate();
+		
+		if (empty($this->errors)) {
+			$sql = "UPDATE users SET name = :name WHERE id = :id";
+			
+			$db = static::getDB();
+			$stmt = $db->prepare($sql);
+
+			$stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
+			$stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+			
+			return $stmt->execute();
+		}
+		
+		return false;
+	}
+	
+	/**
+     * Changes e-mail
+     * 
+     * @return boolean  True if the e-mail has changed successfully, false otherwise
+     */
+    public function changeEmail() {
+		$this->validate();
+		
+		if (empty($this->errors)) {
+			$sql = "UPDATE users SET email = :email WHERE id = :id";
+			
+			$db = static::getDB();
+			$stmt = $db->prepare($sql);
+
+			$stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
+			$stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+			
+			return $stmt->execute();
+		}
+		
+		return false;
+	}
 }

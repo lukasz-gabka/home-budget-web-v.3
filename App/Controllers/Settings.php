@@ -28,61 +28,50 @@ class Settings extends \Core\Controller
 			'settings_active' => 'active',
 			'settings' => $arg]);
     }
-
+    
     /**
-     * Log in a user
-     *
+     * Change user's name by user's input
+     * 
      * @return void
      */
-    public function createAction()
-    {
-        $user = User::authenticate($_POST['email'], $_POST['password']);
-        
-        $remember_me = isset($_POST['remember_me']);
+    public function changeNameAction() {
+		$user = User::findByID($_SESSION['user_id']);
+		
+		$user->name = $_POST['name'];
+		
+		if($user->changeName()) {
+			Flash::addMessage("Imię zmieniono poprawnie");
 
-        if ($user && empty($user->errors)) {
-
-            Auth::login($user, $remember_me);
+            $this->redirect('/dane-uzytkownika');
+		} else {
+			$user->errorString = implode(PHP_EOL, $user->errors);
 			
-            Flash::addMessage("Zalogowano poprawnie");
+			Flash::addMessage($user->errorString, Flash::DANGER);
 
-            $this->redirect(Auth::getReturnToPage());
-
-        } else {
-
-            Flash::addMessage($user->errors[0], Flash::DANGER);
-            
-            $login['email'] = $_POST['email'];
-            $login['remember_me'] = $remember_me;
-
-            $this->newAction($login);
-            
-        }
-    }
-
-    /**
-     * Log out a user
-     *
+			$this->newAction();
+		}
+	}
+	
+	/**
+     * Change user's e-mail by user's input
+     * 
      * @return void
      */
-    public function destroyAction()
-    {
-        Auth::logout();
+    public function changeEmailAction() {
+		$user = User::findByID($_SESSION['user_id']);
+		
+		$user->email = $_POST['email'];
+		
+		if($user->changeEmail()) {
+			Flash::addMessage("e-mail zmieniono poprawnie");
 
-        $this->redirect('/login/show-logout-message');
-    }
+            $this->redirect('/dane-uzytkownika');
+		} else {
+			$user->errorString = implode(PHP_EOL, $user->errors);
+			
+			Flash::addMessage($user->errorString, Flash::DANGER);
 
-    /**
-     * Show a "logged out" flash message and redirect to the homepage. Necessary to use the flash messages
-     * as they use the session and at the end of the logout method (destroyAction) the session is destroyed
-     * so a new action needs to be called in order to use the session.
-     *
-     * @return void
-     */
-    public function showLogoutMessageAction()
-    {
-        Flash::addMessage('Wylogowano poprawnie');
-
-        $this->redirect('/');
-    }
+			$this->newAction();
+		}
+	}
 }
