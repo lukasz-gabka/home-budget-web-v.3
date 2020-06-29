@@ -48,7 +48,7 @@ class Settings extends \Core\Controller
 			
 			Flash::addMessage($user->errorString, Flash::DANGER);
 
-			$this->newAction();
+			$this->redirect('/dane-uzytkownika');
 		}
 	}
 	
@@ -71,7 +71,7 @@ class Settings extends \Core\Controller
 			
 			Flash::addMessage($user->errorString, Flash::DANGER);
 
-			$this->newAction();
+			$this->redirect('/dane-uzytkownika');
 		}
 	}
 	
@@ -95,7 +95,38 @@ class Settings extends \Core\Controller
 			
 			Flash::addMessage($user->errorString, Flash::DANGER);
 
-			$this->newAction();
+			$this->redirect('/dane-uzytkownika');
 		}
 	}
+	
+	/**
+     * Delete an account
+     * 
+     * @return void
+     */
+    public function deleteAccountAction() {
+		$user = User::findByID($_SESSION['user_id']);
+		
+		if($user->deleteAccount()) {
+			Auth::logout();
+			
+			$this->redirect('/settings/show-delete-account');
+		} else {
+			Flash::addMessage("Wystąpił błąd, spróbuj ponownie później");
+
+			$this->redirect('/dane-uzytkownika');
+		}
+	}
+	
+	/**
+	 * Shows a flash message after deletion of an account
+	 * 
+	 * @return void
+	 */
+	public function showDeleteAccountAction()
+    {
+        Flash::addMessage('Konto usunięto poprawnie');
+
+        $this->redirect('/');
+    }
 }
