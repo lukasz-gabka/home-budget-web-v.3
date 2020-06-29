@@ -277,4 +277,29 @@ class User extends \Core\Model
 		
 		return false;
 	}
+	
+	/**
+     * Changes password
+     * 
+     * @return boolean  True if the password has changed successfully, false otherwise
+     */
+    public function changePassword() {
+		$this->validate();
+		
+		if (empty($this->errors)) {
+			$password_hash = password_hash($this->password1, PASSWORD_DEFAULT);
+			
+			$sql = "UPDATE users SET password_hash = :password_hash WHERE id = :id";
+			
+			$db = static::getDB();
+			$stmt = $db->prepare($sql);
+
+			$stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
+			$stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+			
+			return $stmt->execute();
+		}
+		
+		return false;
+	}
 }

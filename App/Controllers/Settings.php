@@ -74,4 +74,28 @@ class Settings extends \Core\Controller
 			$this->newAction();
 		}
 	}
+	
+	/**
+     * Change user's password by user's input
+     * 
+     * @return void
+     */
+    public function changePasswordAction() {
+		$user = User::findByID($_SESSION['user_id']);
+		
+		$user->password1 = $_POST['password1'];
+		$user->password2 = $_POST['password2'];
+		
+		if($user->changePassword()) {
+			Flash::addMessage("Hasło zmieniono poprawnie");
+
+            $this->redirect('/dane-uzytkownika');
+		} else {
+			$user->errorString = implode(PHP_EOL, $user->errors);
+			
+			Flash::addMessage($user->errorString, Flash::DANGER);
+
+			$this->newAction();
+		}
+	}
 }
