@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}e-świnka - ustawienia{% endblock %}
+
+{% block body %}
+
+	<main>
+		<div class="container mt-5" id="a1">
+			<article>
+				<header>
+					<h1 class="text-center">Edycja kategorii</h1>
+				</header>
+				
+				<div class="container text-center mt-5">
+					<h2 class="text-center">Edycja kategorii przychodów</h2>
+					
+					<div class="row my-5 pb-0">
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered table-hover text-center small">
+								<thead>
+									<tr>
+										<th scope="col">Nazwa kategorii</th>
+										<th scope="col">Edytuj</th>
+										<th scope="col">Usuń</th>
+									</tr>
+								</thead>
+								
+								<tbody>
+									{% for value in incomeCategories %}	
+										<tr><td class="align-middle">{{ value.name }}</td>
+										
+										<td>
+											<button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit incomeButton" data-toggle="modal" data-target="#editIncome" name="edit" value="{{ value.name }}"><i class="icon-pencil-1"></i></button>
+										</td>
+										
+										<td>
+											<button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit" data-toggle="modal" data-target="#changeEmail" name="delete" value="{{ value.name }}"><i class="icon-trash-empty"></i></button>
+										</td></tr>
+									{% endfor %}	
+										<tr><td colspan="3">
+											<input type="button" class="btn btn-sm form-control inputs submitButtons" data-toggle="modal" data-target="#changeEmail" value="Dodaj">
+										</td></tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<h2 class="text-center">Edycja kategorii wydatków</h2>
+					
+					<div class="row my-5 pb-0">
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered table-hover text-center small">
+								<thead>
+									<tr>
+										<th scope="col">Nazwa kategorii</th>
+										<th scope="col">Limit</th>
+										<th scope="col">Edytuj</th>
+										<th scope="col">Usuń</th>
+									</tr>
+								</thead>
+								
+								<tbody>
+									{% for value in expenseCategories %}	
+										<tr><td class="align-middle">{{ value.name }}</td>
+										
+										<td class="align-middle">-</td>
+										
+										<td>
+											<button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit" data-toggle="modal" data-target="#changeEmail" name="{{ value.name }}"><i class="icon-pencil-1"></i></button>
+										</td>
+										
+										<td>
+											<button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit" data-toggle="modal" data-target="#changeEmail"><i class="icon-trash-empty"></i></button>
+										</td></tr>
+									{% endfor %}	
+										<tr><td colspan="4">
+											<input type="button" class="btn btn-sm form-control inputs submitButtons" data-toggle="modal" data-target="#changeEmail" value="Dodaj">
+										</td></tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<h2 class="text-center">Edycja sposobów płatności</h2>
+					
+					<div class="row my-5">
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered table-hover text-center small">
+								<thead>
+									<tr>
+										<th scope="col">Nazwa kategorii</th>
+										<th scope="col">Edytuj</th>
+										<th scope="col">Usuń</th>
+									</tr>
+								</thead>
+								
+								<tbody>
+									{% for value in paymentMethods %}	
+										<tr><td class="align-middle">{{ value.name }}</td>
+
+										<td>
+											<button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit" data-toggle="modal" data-target="#changeEmail" name="{{ value.name }}"><i class="icon-pencil-1"></i></button>
+										</td>
+										
+										<td>
+											<button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit" data-toggle="modal" data-target="#changeEmail"><i class="icon-trash-empty"></i></button>
+										</td></tr>
+									{% endfor %}	
+										<tr><td colspan="3">
+											<input type="button" class="btn btn-sm form-control inputs submitButtons" data-toggle="modal" data-target="#changeEmail" value="Dodaj">
+										</td></tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
+	</main>
+	
+	<div class="modal" id="editIncome" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Edycja kategorii</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<form method="post" action="/settings/editIncomeCategory">
+					<div class="modal-body">
+						<div class="input-group justify-content-center my-5">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-pencil-1"></i>
+								</span>
+							</div>
+							
+							<input type="text" id="editIncomeInput" class="form-control inputs" placeholder="Nowa nazwa kategorii" name="newIncomeCategory" value="" required>
+							<input type="hidden" id="hiddenIncomeInput" name="hidden" value="">
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<input type="submit" id="submitButton" class="btn form-control inputs submitButtons" value="Zatwierdź">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="/js/categories.js"></script>
+{% endblock %}

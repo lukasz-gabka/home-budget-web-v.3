@@ -6,6 +6,9 @@ use \Core\View;
 use \App\Models\User;
 use \App\Auth;
 use \App\Flash;
+use \App\Models\IncomeCategories;
+use \App\Models\ExpenseCategories;
+use \App\Models\PaymentMethods;
 
 /**
  * Settings controller
@@ -16,17 +19,41 @@ class Settings extends \Core\Controller
 {
 
     /**
-     * Show the settings page
+     * Show the user settings page
      * 
      * @param array  The arguments to display (optional)
      *
      * @return void
      */
-    public function newAction($arg = 0)
+    public function newUserAction($arg = 0)
     {
         View::renderTemplate('Settings/user.html', [
 			'settings_active' => 'active',
 			'settings' => $arg]);
+    }
+    
+    /**
+     * Show the categories settings page
+     * 
+     * @param array  The arguments to display (optional)
+     *
+     * @return void
+     */
+    public function newCategoriesAction($arg = 0)
+    {
+		$incomeCategories = IncomeCategories::get($_SESSION['user_id']);
+		$expenseCategories = ExpenseCategories::get($_SESSION['user_id']);
+		$paymentMethods = PaymentMethods::get($_SESSION['user_id']);
+		
+		//var_dump($incomeCategories['name']);
+		//exit();
+		
+        View::renderTemplate('Settings/categories.html', [
+			'settings_active' => 'active',
+			'settings' => $arg,
+			'incomeCategories' => $incomeCategories,
+			'expenseCategories' => $expenseCategories,
+			'paymentMethods' => $paymentMethods]);
     }
     
     /**
@@ -112,7 +139,7 @@ class Settings extends \Core\Controller
 			
 			$this->redirect('/settings/show-delete-account');
 		} else {
-			Flash::addMessage("Wystąpił błąd, spróbuj ponownie później");
+			Flash::addMessage("Wystąpił błąd, spróbuj ponownie później", Flash::DANGER);
 
 			$this->redirect('/dane-uzytkownika');
 		}
@@ -129,4 +156,26 @@ class Settings extends \Core\Controller
 
         $this->redirect('/');
     }
+    
+    /*
+     * Edit income category
+     * 
+     * @return void
+     */
+    public function editIncomeCategoryAction() {
+		$newIncomeCategory = $_POST['newIncomeCategory'];
+		$currentIncomeCategory = $_POST['hidden'];
+		
+		if(!IncomeCategories::checkName($newIncomeCategory)) {
+			IncomeCategories::edit($newIncomeCategory, $currentIncomeCategory);
+			
+			Flash::addMessage("Nazwa kategorii zmieniona poprawnie");
+
+			$this->redirect('/ustawienia-kategorii');
+		} else {
+			Flash::addMessage("Podana kategoria przychodu już istnieje", Flash::DANGER);
+
+			$this->redirect('/ustawienia-kategorii');
+		}
+	}
 }

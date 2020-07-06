@@ -122,7 +122,9 @@ input[type=submit],
 input[type=button],
 input[type=reset],
 input[type=submit]:focus,
-input[type=button]:focus
+input[type=button]:focus,
+.btnEdit,
+.btnEdit:focus
 {
 	background-color: #009b44;
 	color: white;
@@ -156,6 +158,11 @@ textarea
 .submitButtons
 {
 	max-width: 150px !important;
+}
+
+.btnSmall
+{
+	max-width: 50px !important;
 }
 
 table, th, td
