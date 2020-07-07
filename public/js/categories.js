@@ -7,6 +7,13 @@ $('.incomeButton').on('click', function() {
 });
 
 /**
+ * A 'click' event for delete-income-category button
+ */
+$('.incomeDeleteButton').on('click', function() {
+	setDeleteIncomeHiddenValue(this.value);
+});
+
+/**
  * Set value of edit-income-category text input
  * 
  * @param string  Category name
@@ -26,4 +33,15 @@ function setIncomeValue(value) {
  */
 function setIncomeHiddenValue(value) {
 	$('#hiddenIncomeInput').val(value);
+}
+
+/**
+ * Set value of delete-income-category hidden text input
+ * 
+ * @param string  Category name
+ * 
+ * @return void
+ */
+function setDeleteIncomeHiddenValue(value) {
+	$('#hiddenDeleteIncomeInput').val(value);
 }

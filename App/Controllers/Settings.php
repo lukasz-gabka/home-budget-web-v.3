@@ -163,7 +163,7 @@ class Settings extends \Core\Controller
      * @return void
      */
     public function editIncomeCategoryAction() {
-		$newIncomeCategory = $_POST['newIncomeCategory'];
+		$newIncomeCategory = $_POST['newName'];
 		$currentIncomeCategory = $_POST['hidden'];
 		
 		if(!IncomeCategories::checkName($newIncomeCategory)) {
@@ -174,6 +174,48 @@ class Settings extends \Core\Controller
 			$this->redirect('/ustawienia-kategorii');
 		} else {
 			Flash::addMessage("Podana kategoria przychodu już istnieje", Flash::DANGER);
+
+			$this->redirect('/ustawienia-kategorii');
+		}
+	}
+	
+	/**
+	 * Add new income category
+	 * 
+	 * @return void
+	 */
+	public function addIncomeCategoryAction() {
+		$newName = $_POST['newCategory'];
+		
+		if(!IncomeCategories::checkName($newName)) {
+			IncomeCategories::add($newName);
+			
+			Flash::addMessage("Dodano kategorię poprawnie");
+
+			$this->redirect('/ustawienia-kategorii');
+		} else {
+			Flash::addMessage("Podana kategoria przychodu już istnieje", Flash::DANGER);
+
+			$this->redirect('/ustawienia-kategorii');
+		}
+	}
+	
+	/*
+	 * Delete income category
+	 * 
+	 * @return void
+	 */
+	public function deleteIncomeCategoryAction() {
+		$name = $_POST['hidden'];
+		
+		if(IncomeCategories::checkName($name)) {
+			IncomeCategories::delete($name);
+			
+			Flash::addMessage("Usunięto kategorię poprawnie");
+
+			$this->redirect('/ustawienia-kategorii');
+		} else {
+			Flash::addMessage("Podana kategoria nie istnieje", Flash::DANGER);
 
 			$this->redirect('/ustawienia-kategorii');
 		}
