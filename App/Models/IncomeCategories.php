@@ -95,12 +95,13 @@ class IncomeCategories extends \Core\Model
 	 * @return int  Category's ID
 	 */
 	protected static function getID($name) {
-		$sql = "SELECT id FROM income_categories WHERE name = :name";
+		$sql = "SELECT id FROM income_categories WHERE name = :name AND user_id = :user_id";
 		
 		$db = static::getDB();
 		$stmt = $db->prepare($sql);
 
 		$stmt->bindValue(':name', $name, PDO::PARAM_STR);
+		$stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
 		
 		$stmt->execute();
 

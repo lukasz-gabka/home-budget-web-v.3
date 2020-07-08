@@ -220,4 +220,68 @@ class Settings extends \Core\Controller
 			$this->redirect('/ustawienia-kategorii');
 		}
 	}
+
+	/*
+     * Edit payment method
+     * 
+     * @return void
+     */
+    public function editPaymentMethodAction() {
+		$newPaymentMethod = $_POST['newName'];
+		$currentPaymentMethod = $_POST['hidden'];
+		
+		if(!PaymentMethods::checkName($newPaymentMethod)) {
+			PaymentMethods::edit($newPaymentMethod, $currentPaymentMethod);
+			
+			Flash::addMessage("Nazwa metody płatności zmieniona poprawnie");
+
+			$this->redirect('/ustawienia-kategorii');
+		} else {
+			Flash::addMessage("Podana metoda płatności już istnieje", Flash::DANGER);
+
+			$this->redirect('/ustawienia-kategorii');
+		}
+	}
+	
+	/**
+	 * Add new payment method
+	 * 
+	 * @return void
+	 */
+	public function addPaymentMethodAction() {
+		$newName = $_POST['newCategory'];
+		
+		if(!PaymentMethods::checkName($newName)) {
+			PaymentMethods::add($newName);
+			
+			Flash::addMessage("Dodano metodę płatności poprawnie");
+
+			$this->redirect('/ustawienia-kategorii');
+		} else {
+			Flash::addMessage("Podana metoda płatności już istnieje", Flash::DANGER);
+
+			$this->redirect('/ustawienia-kategorii');
+		}
+	}
+	
+	/*
+	 * Delete payment method
+	 * 
+	 * @return void
+	 */
+	public function deletePaymentMethodAction() {
+		$name = $_POST['hidden'];
+		
+		if(PaymentMethods::checkName($name)) {
+			PaymentMethods::delete($name);
+			
+			Flash::addMessage("Usunięto metodę płatności poprawnie");
+
+			$this->redirect('/ustawienia-kategorii');
+		} else {
+			Flash::addMessage("Podana metoda płatności nie istnieje", Flash::DANGER);
+
+			$this->redirect('/ustawienia-kategorii');
+		}
+	}
 }
