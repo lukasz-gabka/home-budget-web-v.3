@@ -220,6 +220,71 @@ class Settings extends \Core\Controller
 			$this->redirect('/ustawienia-kategorii');
 		}
 	}
+	
+	/*
+     * Edit expense category
+     * 
+     * @return void
+     */
+    public function editExpenseCategoryAction() {
+		$newExpenseCategory = $_POST['newName'];
+		$currentExpenseCategory = $_POST['hidden'];
+		$limit = $_POST['inputLimit'];
+
+		if(!ExpenseCategories::checkName($newExpenseCategory) || $newExpenseCategory == $currentExpenseCategory) {
+			ExpenseCategories::edit($newExpenseCategory, $currentExpenseCategory, $limit);
+			
+			Flash::addMessage("Kategoria zmieniona poprawnie");
+
+			$this->redirect('/ustawienia-kategorii');
+		} else {
+			Flash::addMessage("Podana kategoria wydatku już istnieje", Flash::DANGER);
+
+			$this->redirect('/ustawienia-kategorii');
+		}
+	}
+	
+	/**
+	 * Add new expense category
+	 * 
+	 * @return void
+	 */
+	public function addExpenseCategoryAction() {
+		$newName = $_POST['newCategory'];
+		
+		if(!ExpenseCategories::checkName($newName)) {
+			ExpenseCategories::add($newName);
+			
+			Flash::addMessage("Dodano kategorię poprawnie");
+
+			$this->redirect('/ustawienia-kategorii');
+		} else {
+			Flash::addMessage("Podana kategoria wydatku już istnieje", Flash::DANGER);
+
+			$this->redirect('/ustawienia-kategorii');
+		}
+	}
+	
+	/*
+	 * Delete expense category
+	 * 
+	 * @return void
+	 */
+	public function deleteExpenseCategoryAction() {
+		$name = $_POST['hidden'];
+		
+		if(ExpenseCategories::checkName($name)) {
+			ExpenseCategories::delete($name);
+			
+			Flash::addMessage("Usunięto kategorię poprawnie");
+
+			$this->redirect('/ustawienia-kategorii');
+		} else {
+			Flash::addMessage("Podana kategoria nie istnieje", Flash::DANGER);
+
+			$this->redirect('/ustawienia-kategorii');
+		}
+	}
 
 	/*
      * Edit payment method

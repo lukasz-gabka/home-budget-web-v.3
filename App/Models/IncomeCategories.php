@@ -72,7 +72,7 @@ class IncomeCategories extends \Core\Model
 	 * @return void
 	 */
 	public static function edit($name, $category) {
-		$name = ucfirst(strtolower($name));
+		$name = ucfirst($name);
 
 		$id = static::getID($category);
 		
@@ -109,14 +109,14 @@ class IncomeCategories extends \Core\Model
 	}
 	
 	/**
-	 * Add new income category
+	 * Add new category
 	 * 
 	 * @param string  New category's name
 	 * 
 	 * @return void
 	 */
 	public static function add($name) {
-		$name = ucfirst(strtolower($name));
+		$name = ucfirst($name);
 		
 		$sql = "INSERT INTO income_categories VALUES (NULL, :user_id, :name)";
 		
@@ -130,7 +130,7 @@ class IncomeCategories extends \Core\Model
 	}
 	
 	/**
-	 * Delete income category
+	 * Delete category
 	 * 
 	 * @param string  Category's name to delete
 	 * 

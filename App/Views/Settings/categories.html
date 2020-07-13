@@ -63,18 +63,22 @@
 									{% for value in expenseCategories %}	
 										<tr><td class="align-middle">{{ value.name }}</td>
 										
-										<td class="align-middle">-</td>
-										
-										<td>
-											<button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit" data-toggle="modal" data-target="#changeEmail" name="{{ value.name }}"><i class="icon-pencil-1"></i></button>
+										<td class="align-middle">
+											{% if value.category_limit %}
+												{{ value.category_limit }} zł
+											{% endif %}
 										</td>
 										
 										<td>
-											<button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit" data-toggle="modal" data-target="#changeEmail"><i class="icon-trash-empty"></i></button>
+											<button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit categoryButton" data-toggle="modal" data-target="#editExpense" name="edit" value="{{ value.name }}"><i class="icon-pencil-1"></i></button>
+										</td>
+										
+										<td>
+											<button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit categoryButton" data-toggle="modal" data-target="#deleteExpense" name="delete" value="{{ value.name }}"><i class="icon-trash-empty"></i></button>
 										</td></tr>
 									{% endfor %}	
 										<tr><td colspan="4">
-											<input type="button" class="btn btn-sm form-control inputs submitButtons" data-toggle="modal" data-target="#changeEmail" value="Dodaj">
+											<input type="button" class="btn btn-sm form-control inputs submitButtons" data-toggle="modal" data-target="#addExpense" value="Dodaj">
 										</td></tr>
 								</tbody>
 							</table>
@@ -205,6 +209,125 @@
 				</div>
 				
 				<form method="post" action="/settings/deleteIncomeCategory">
+					<div class="modal-footer">
+						<input type="submit" class="btn form-control inputs submitButtons" value="Zatwierdź" name="submit">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+					</div>
+					
+					<input type="hidden" class="hiddenCategoryInput" name="hidden" value="">
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	<div class="modal" id="editExpense" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Edycja kategorii wydatku</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<form method="post" action="/settings/editExpenseCategory">
+					<div class="modal-body">
+						<div class="input-group justify-content-center my-5">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-tag"></i>
+								</span>
+							</div>
+							
+							<input type="text" class="form-control inputs editCategoryInput" placeholder="Nowa nazwa kategorii" name="newName" value="" required>
+						</div>
+						
+						<div class="input-group my-5 pl-2">
+							<div class="form-check">
+								<label>
+									<input type="checkbox" id="categoryLimit" class="form-check-input" name="limit" /> Ustaw limit dla kategorii
+								</label>
+							</div>
+						</div>
+						
+						<div class="input-group justify-content-center my-5" style="display:none;" id="inputLimitDiv">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-money"></i>
+								</span>
+							</div>
+							
+							<input type="number" id="inputLimit" class="form-control inputs" placeholder="Wartość limitu (w zł)" step="0.01" min="0.01" name="inputLimit">
+						</div>
+						
+						<input type="hidden" class="hiddenCategoryInput" name="hidden" value="">
+					</div>
+					
+					<div class="modal-footer">
+						<input type="submit" id="submitButton" class="btn form-control inputs submitButtons" value="Zatwierdź">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal" id="addExpense" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Dodaj kategorię wydatku</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<form method="post" action="/settings/addExpenseCategory">
+					<div class="modal-body">
+						<div class="input-group justify-content-center my-5">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-tag"></i>
+								</span>
+							</div>
+							
+							<input type="text" class="form-control inputs" placeholder="Nazwa nowej kategorii" name="newCategory" required>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<input type="submit" id="submitButton" class="btn form-control inputs submitButtons" value="Zatwierdź">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal" id="deleteExpense" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Usuń kategorię wydatku</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<div class="modal-body my-3 py-0 text-center">
+					<p>Ta operacja jest <strong>nieodwracalna</strong>.</p>
+					<p class="mb-0">Czy chcesz kontynuować?</p>
+				</div>
+				
+				<form method="post" action="/settings/deleteExpenseCategory">
 					<div class="modal-footer">
 						<input type="submit" class="btn form-control inputs submitButtons" value="Zatwierdź" name="submit">
 					
