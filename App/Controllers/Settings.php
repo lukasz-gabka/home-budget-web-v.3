@@ -45,9 +45,6 @@ class Settings extends \Core\Controller
 		$expenseCategories = ExpenseCategories::get($_SESSION['user_id']);
 		$paymentMethods = PaymentMethods::get($_SESSION['user_id']);
 		
-		//var_dump($incomeCategories['name']);
-		//exit();
-		
         View::renderTemplate('Settings/categories.html', [
 			'settings_active' => 'active',
 			'settings' => $arg,

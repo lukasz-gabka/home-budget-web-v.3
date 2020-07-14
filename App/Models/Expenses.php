@@ -91,23 +91,41 @@ class Expenses extends \Core\Model
 	 * Gets the expense categories and sum of expenses in each category based by dates and user's id
 	 * 
 	 * @param array  The array of dates
-	 * @param int  The user's id
 	 * 
 	 * @return array  The array of sum of expenses based by category
 	 */
-	public static function getCategories($date, $id) {
+	public static function getCategories($date) {
 		$db = static::getDB();
 		
 		$stmt = $db->prepare("SELECT ROUND(SUM(amount), 2), category FROM expenses WHERE date BETWEEN :firstDate AND :lastDate AND user_id = :id GROUP BY category");
 		
 		$stmt->bindValue(':firstDate', $date['firstDate'], PDO::PARAM_STR);
 		$stmt->bindValue(':lastDate', $date['lastDate'], PDO::PARAM_STR);
-		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+		$stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_INT);
 		
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
 
         $stmt->execute();
 
         return $stmt->fetchAll();
+	}
+	
+	/**
+	 * Join together array of expenses with array of expense categories
+	 * 
+	 * @param array  The array of expenses with expense sum
+	 * @param array  The array of expense categories with limits
+	 * 
+	 * @return array  The array of expenses with expense categories
+	 */
+	public static function getCategoriesAndLimits($categories, $limits) {
+		for ($i = 0; $i < sizeof($categories); $i++) {
+			for ($j = 0; $j < sizeof($limits); $j++) {
+				if ($categories[$i]['category'] == $limits[$j]['name'] ) {
+					$categories[$i]['limit'] = $limits[$j]['category_limit'];
+				}
+			}
+		}
+		return $categories;
 	}
 }

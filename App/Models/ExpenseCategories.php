@@ -157,4 +157,24 @@ class ExpenseCategories extends \Core\Model
 		
 		$stmt->execute();
 	}
+	
+	/**
+	 * Get category name and limits
+	 * 
+	 * @return array  The array of categories and category limits
+	 */
+	public static function getLimits() {
+		$sql = "SELECT name, category_limit FROM expense_categories WHERE user_id = :id";
+		
+		$db = static::getDB();
+		$stmt = $db->prepare($sql);
+
+		$stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_INT);
+		
+		$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+	}
 }
