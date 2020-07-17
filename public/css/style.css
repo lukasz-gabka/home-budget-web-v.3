@@ -200,3 +200,15 @@ tbody
   height: 60px;
   line-height: 60px;
 }
+
+.limit {
+	max-width: 446.4px;
+}
+
+.borderless td {
+	border: none !important;
+}
+
+.borderless tbody {
+	background-color: transparent;
+}
