@@ -128,4 +128,24 @@ class Expenses extends \Core\Model
 		}
 		return $categories;
 	}
+	
+	/**
+	 * Get sum of expenses based by expense category
+	 * 
+	 * @param string  The expense category's name
+	 * 
+	 * @return double  The sum of expenses from the category
+	 */
+	public static function getSum($category) {
+		$db = static::getDB();
+		
+		$stmt = $db->prepare("SELECT ROUND(SUM(amount), 2) FROM expenses WHERE user_id = :id AND category = :category");
+
+		$stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_INT);
+		$stmt->bindValue(':category', $category, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+	}
 }

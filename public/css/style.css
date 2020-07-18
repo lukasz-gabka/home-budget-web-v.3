@@ -203,6 +203,11 @@ tbody
 
 .limit {
 	max-width: 446.4px;
+	display: none;
+}
+
+.limitBox {
+	max-width: 100%;
 }
 
 .borderless td {

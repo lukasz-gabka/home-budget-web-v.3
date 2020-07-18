@@ -177,4 +177,45 @@ class ExpenseCategories extends \Core\Model
 
         return $stmt->fetchAll();
 	}
+	
+	/**
+	 * Get expense category limit
+	 * 
+	 * @param string  The category's name
+	 * 
+	 * @return mixed  The expense category limit if the category has limit set, false otherwise
+	 */
+	public static function getLimit($limit) {
+		$sql = "SELECT * FROM expense_categories WHERE name = :name AND user_id = :id AND category_limit IS NOT NULL";
+		
+		$db = static::getDB();
+		$stmt = $db->prepare($sql);
+
+		$stmt->bindValue(':name', $limit, PDO::PARAM_STR);
+		$stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+	}
+	
+	/**
+	 * Set limit parameters
+	 * 
+	 * @param double  The current expense amount
+	 * @param double  The current category's limit
+	 * @param double  Sum of expenses from current category
+	 * 
+	 * @return array  The array of limit-message parameters
+	 */
+	public static function setLimitParams($expense, $limit, $sum) {
+		$params['limit'] = $limit;
+		$params['sum'] = $sum + $expense;
+		$params['left'] = $params['limit'] - $params['sum'];
+		
+		$params['left'] = round($params['left'], 2);
+		$params['sum'] = round($params['sum'], 2);
+		
+		return $params;
+	}
 }

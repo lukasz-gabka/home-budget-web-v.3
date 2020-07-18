@@ -66,9 +66,30 @@ class Expense extends Authenticated {
 			if (isset($_POST['comment'])) {
 				$expense['comment'] = $_POST['comment'];
 			}
-
+			
             $this->showAction($expense);
 		}
+	}
+	
+	/**
+	 * Get expense category limit parameters
+	 * 
+	 * @param array  The array of expense-category and expense-amount
+	 * 
+	 * @return mixed  The array of limit parameters if limit found, false otherwise
+	 */
+	public function getLimitAction() {
+		$expense = $_POST['expense'];
+		
+		$limit = ExpenseCategories::getLimit($expense['category']);
+		
+		if ($limit) {
+			$expenseSum = Expenses::getSum($expense['category']);
+			$result = ExpenseCategories::setLimitParams($expense['amount'], $limit['category_limit'], $expenseSum['ROUND(SUM(amount), 2)']);
+		} 
+		
+		echo json_encode($result);
+		exit();	
 	}
 }
 
