@@ -40,6 +40,10 @@ class Balance extends Authenticated {
 			exit();
 		}
 			$date = static::getDate($_GET['id']);
+			
+			if ($_GET['id'] == 1 || $_GET['id'] == 2) {
+				$balance['showLimit'] = true;
+			}
 		
 			if (!$date) {
 				Flash::addMessage('Podane daty mają niepoprawną wartość', FLASH::DANGER);

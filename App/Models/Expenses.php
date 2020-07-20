@@ -130,19 +130,22 @@ class Expenses extends \Core\Model
 	}
 	
 	/**
-	 * Get sum of expenses based by expense category
+	 * Get sum of expenses based by expense category and date range
 	 * 
 	 * @param string  The expense category's name
+	 * @param array  The array of date range
 	 * 
-	 * @return double  The sum of expenses from the category
+	 * @return double  The sum of expenses
 	 */
-	public static function getSum($category) {
+	public static function getSum($category, $dates) {
 		$db = static::getDB();
 		
-		$stmt = $db->prepare("SELECT ROUND(SUM(amount), 2) FROM expenses WHERE user_id = :id AND category = :category");
+		$stmt = $db->prepare("SELECT ROUND(SUM(amount), 2) FROM expenses WHERE user_id = :id AND category = :category AND date BETWEEN :firstDate AND :lastDate");
 
 		$stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_INT);
 		$stmt->bindValue(':category', $category, PDO::PARAM_STR);
+		$stmt->bindValue(':firstDate', $dates['firstDate'], PDO::PARAM_STR);
+		$stmt->bindValue(':lastDate', $dates['lastDate'], PDO::PARAM_STR);
 
         $stmt->execute();
 

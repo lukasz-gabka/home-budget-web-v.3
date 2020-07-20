@@ -84,12 +84,31 @@ class Expense extends Authenticated {
 		$limit = ExpenseCategories::getLimit($expense['category']);
 		
 		if ($limit) {
-			$expenseSum = Expenses::getSum($expense['category']);
+			$dateRange = static::getDateRange($expense['date']);
+			
+			$expenseSum = Expenses::getSum($expense['category'], $dateRange);
+			
 			$result = ExpenseCategories::setLimitParams($expense['amount'], $limit['category_limit'], $expenseSum['ROUND(SUM(amount), 2)']);
 		} 
 		
 		echo json_encode($result);
 		exit();	
+	}
+	
+	/**
+	 * Get month from date provided and convert to date range (1st day of this month - last day of this month)
+	 * 
+	 * @param string  The date
+	 * 
+	 * @return array  The array of date range
+	 */
+	protected static function getDateRange($date) {
+		$month = date("F", strtotime($date));
+		
+		$dateRange['firstDate'] = date("Y-m-d", strtotime("first day of ".$month));
+		$dateRange['lastDate'] = date("Y-m-d", strtotime("last day of ".$month));
+		
+		return $dateRange;
 	}
 }
 

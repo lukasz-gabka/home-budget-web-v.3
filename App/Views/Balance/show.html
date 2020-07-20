@@ -116,19 +116,25 @@
 									<tr>
 										<th scope="col">Kategoria</th>
 										<th scope="col">Kwota</th>
-										<th scope="col">Limit</th>
+										{% if balance.showLimit %}
+											<th scope="col">Limit</th>
+										{% endif %}
 									</tr>
 								</thead>
 								
 								<tbody>									
 									{% for value in balance.expenseCategories %}	
-										<tr><td>{{ value['category'] }}</td>
-										<td class="text-nowrap">{{ value['ROUND(SUM(amount), 2)']|number_format(2, ',', ' ') }} zł</td>
-										<td>
-											{% if value.limit %}
-												{{ value.limit }} zł
+										<tr>
+											<td>{{ value['category'] }}</td>
+											<td class="text-nowrap">{{ value['ROUND(SUM(amount), 2)']|number_format(2, ',', ' ') }} zł</td>
+											{% if balance.showLimit %}
+												<td>
+													{% if value.limit %}
+														{{ value.limit }} zł
+													{% endif %}
+												</td>
 											{% endif %}
-										</td></tr>
+										</tr>
 									{% endfor %}	
 								</tbody>
 							</table>

@@ -13,7 +13,7 @@ $('.limits').on('change', function() {
 			})
 		.done(function(data) {
 			data = $.parseJSON(data);
-			
+
 			$('#limitCell').html(data.limit + ' zł');
 			$('#sumCell').html(data.sum + ' zł');
 			$('#leftCell').html(data.left + ' zł');
@@ -33,13 +33,30 @@ $('.limits').on('change', function() {
 /**
  * Get values of amount and category for new-expense
  * 
- * @return array  The associative array of amount and category of new-expense
+ * @return mixed  The associative array of amount and category of new-expense if the date is correct, false otherwise
  */
 function getValues() {
 	var expense = {
 	'category': $('.limitCategory').val(),
-	'amount': $('.limitAmount').val()
+	'amount': $('.limitAmount').val(),
+	'date': $('.limitDate').val()
 	};
 
-	return expense;
+	if (isCorrectDate(expense['date'])) {
+		return expense;
+	}
+}
+
+/**
+ * Check if date-input is not empty
+ * 
+ * @param string  The input's value
+ * 
+ * @return boolean  True if input is not empty, false otherwise
+ */
+function isCorrectDate(date) {
+	if (date) {
+		return true;
+	}
+	return false;
 }
