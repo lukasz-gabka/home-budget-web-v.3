@@ -7,6 +7,7 @@ use \App\Auth;
 use \App\Flash;
 use \App\Models\Incomes;
 use \App\Models\Expenses;
+use \App\Models\ExpenseCategories;
 use \App\Validate;
 
 /**
@@ -39,6 +40,10 @@ class Balance extends Authenticated {
 			exit();
 		}
 			$date = static::getDate($_GET['id']);
+			
+			if ($_GET['id'] == 1 || $_GET['id'] == 2) {
+				$balance['showLimit'] = true;
+			}
 		
 			if (!$date) {
 				Flash::addMessage('Podane daty mają niepoprawną wartość', FLASH::DANGER);
@@ -49,7 +54,7 @@ class Balance extends Authenticated {
 			$balance['incomes'] = Incomes::get($date, $this->user->id);
 			$balance['incomeCategories'] = Incomes::getCategories($date, $this->user->id);
 			$balance['expenses'] = Expenses::get($date, $this->user->id);
-			$balance['expenseCategories'] = Expenses::getCategories($date, $this->user->id);
+			$balance['expenseCategories'] = static::getExpenseCategories($date);
 			$balance['date'] = $date;
 			
 			$balance['incomeSum'] = 0;
@@ -168,6 +173,20 @@ class Balance extends Authenticated {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Gets expense categories with expense sum and category limits
+	 * 
+	 * @param array  The array of dates for showing balance
+	 * 
+	 * @return array  The arrat of expense categories
+	 */
+	protected static function getExpenseCategories($date) {
+		$categories = Expenses::getCategories($date);
+		$limits = ExpenseCategories::getLimits();
+		
+		return Expenses::getCategoriesAndLimits($categories, $limits);
 	}
 }
 

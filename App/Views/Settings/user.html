@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}e-świnka - ustawienia{% endblock %}
+
+{% block body %}
+
+	<main>
+		<div class="container mt-5">
+			<article>
+				<header>
+					<h1 class="text-center">Edycja danych użytkownika</h1>
+				</header>
+				
+				<div class="container text-center">
+					<div class="row my-5">
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered table-hover text-center small">
+								<thead>
+									<tr>
+										<th scope="col">Nazwa</th>
+										<th scope="col">Wartość</th>
+										<th scope="col">Edytuj</th>
+									</tr>
+								</thead>
+								
+								<tbody>
+										<tr>
+											<td class="align-middle"><strong>Imię</strong></td>
+											<td class="align-middle">{{ current_user.name }}</td>
+											<td><button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit categoryButton" data-toggle="modal" data-target="#changeName" value="Zmień"><i class="icon-pencil-1"></i></button></td>
+										</tr>	
+										
+										<tr>
+											<td class="align-middle"><strong>e-mail</strong></td>
+											<td class="align-middle">{{ current_user.email }}</td>
+											<td><button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit categoryButton" data-toggle="modal" data-target="#changeEmail" value="Zmień"><i class="icon-pencil-1"></i></button></td>
+										</tr>
+										
+										<tr>
+											<td class="align-middle"><strong>Hasło</strong></td>
+											<td class="align-middle">***</td>
+											<td><button type="button" class="btn form-control inputs submitButtons btnSmall btnEdit categoryButton" data-toggle="modal" data-target="#changePassword" value="Zmień"><i class="icon-pencil-1"></i></button></td>
+										</tr>
+										
+										<tr>
+											<td colspan="3">
+												<input type="button" class="btn form-control inputs submitButtons" data-toggle="modal" data-target="#deleteAccount" value="Usuń konto">
+											</td>
+										</tr>	
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
+	</main>
+	
+	<div class="modal" id="changeName" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Zmień imię</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<form method="post" action="/settings/changeName">
+					<div class="modal-body">
+						<div class="input-group justify-content-center my-5">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-user"></i>
+								</span>
+							</div>
+							
+							<input type="text" class="form-control inputs" placeholder="Nowe imię" name="name" value="{{ current_user.name }}" required>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<input type="submit" class="btn form-control inputs submitButtons" value="Zatwierdź" name="submit">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal" id="changeEmail" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Zmień e-mail</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<form method="post" action="/settings/changeEmail">
+					<div class="modal-body">
+						<div class="input-group justify-content-center my-5">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-mail-alt"></i>
+								</span>
+							</div>
+							
+							<input type="email" class="form-control inputs" placeholder="Nowy e-mail" name="email" value="{{ current_user.email }}" required>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<input type="submit" class="btn form-control inputs submitButtons" value="Zatwierdź" name="submit">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal" id="changePassword" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Zmień hasło</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<form method="post" action="/settings/changePassword">
+					<div class="modal-body">
+						<div class="input-group justify-content-center my-5">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-lock"></i>
+								</span>
+							</div>
+							
+							<input type="password" class="form-control inputs" placeholder="Nowe hasło" name="password1" required>
+						</div>
+						
+						<div class="input-group justify-content-center my-5">
+							<div class="input-group-prepend">
+								<span class="input-group-text inputsPrepend">
+									<i class="icon-lock"></i>
+								</span>
+							</div>
+							
+							<input type="password" class="form-control inputs" placeholder="Powtórz hasło" name="password2" required>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<input type="submit" class="btn form-control inputs submitButtons" value="Zatwierdź" name="submit">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal" id="deleteAccount" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header navigation">
+					<h2>Usuń konto</h2>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<div class="modal-body my-3 py-0 text-center">
+					<p>Ta operacja jest <strong>nieodwracalna</strong>.</p>
+					<p class="mb-0">Czy chcesz kontynuować?</p>
+				</div>
+				
+				<form method="post" action="/settings/deleteAccount">
+					<div class="modal-footer">
+						<input type="submit" class="btn form-control inputs submitButtons" value="Zatwierdź" name="submit">
+					
+						<input type="reset" class="btn form-control inputs submitButtons bg-danger" data-dismiss="modal" style="border:none;" value="Anuluj">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}

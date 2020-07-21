@@ -231,4 +231,91 @@ class User extends \Core\Model
 
         return $stmt->execute();
     }
+    
+    /**
+     * Changes name
+     * 
+     * @return boolean  True if the name has changed successfully, false otherwise
+     */
+    public function changeName() {
+		$this->validate();
+		
+		if (empty($this->errors)) {
+			$sql = "UPDATE users SET name = :name WHERE id = :id";
+			
+			$db = static::getDB();
+			$stmt = $db->prepare($sql);
+
+			$stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
+			$stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+			
+			return $stmt->execute();
+		}
+		
+		return false;
+	}
+	
+	/**
+     * Changes e-mail
+     * 
+     * @return boolean  True if the e-mail has changed successfully, false otherwise
+     */
+    public function changeEmail() {
+		$this->validate();
+		
+		if (empty($this->errors)) {
+			$sql = "UPDATE users SET email = :email WHERE id = :id";
+			
+			$db = static::getDB();
+			$stmt = $db->prepare($sql);
+
+			$stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
+			$stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+			
+			return $stmt->execute();
+		}
+		
+		return false;
+	}
+	
+	/**
+     * Changes password
+     * 
+     * @return boolean  True if the password has changed successfully, false otherwise
+     */
+    public function changePassword() {
+		$this->validate();
+		
+		if (empty($this->errors)) {
+			$password_hash = password_hash($this->password1, PASSWORD_DEFAULT);
+			
+			$sql = "UPDATE users SET password_hash = :password_hash WHERE id = :id";
+			
+			$db = static::getDB();
+			$stmt = $db->prepare($sql);
+
+			$stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
+			$stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+			
+			return $stmt->execute();
+		}
+		
+		return false;
+	}
+	
+	/**
+     * Deletes an account
+     * 
+     * @return boolean  True if the account has deleted successfully, false otherwise
+     */
+    public function deleteAccount() {
+		$sql = "DELETE FROM users WHERE id = :id";
+		
+		$db = static::getDB();
+		$stmt = $db->prepare($sql);
+
+		$stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+		
+		return $stmt->execute();
+	}
 }

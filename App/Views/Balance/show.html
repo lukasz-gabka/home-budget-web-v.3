@@ -52,7 +52,7 @@
 									<thead>
 										<th scope="col">Kategoria</th>
 										<th scope="col">Kwota</th>
-										<th scope="col">Sposób płatności</th>
+										<th scope="col">Metoda płatności</th>
 										<th scope="col">Data</th>
 										<th scope="col">Komentarz</th>
 									</thead>
@@ -116,13 +116,25 @@
 									<tr>
 										<th scope="col">Kategoria</th>
 										<th scope="col">Kwota</th>
+										{% if balance.showLimit %}
+											<th scope="col">Limit</th>
+										{% endif %}
 									</tr>
 								</thead>
 								
 								<tbody>									
 									{% for value in balance.expenseCategories %}	
-										<tr><td>{{ value['category'] }}</td>
-										<td class="text-nowrap">{{ value['ROUND(SUM(amount), 2)']|number_format(2, ',', ' ') }} zł</td></tr>
+										<tr>
+											<td>{{ value['category'] }}</td>
+											<td class="text-nowrap">{{ value['ROUND(SUM(amount), 2)']|number_format(2, ',', ' ') }} zł</td>
+											{% if balance.showLimit %}
+												<td>
+													{% if value.limit %}
+														{{ value.limit }} zł
+													{% endif %}
+												</td>
+											{% endif %}
+										</tr>
 									{% endfor %}	
 								</tbody>
 							</table>
