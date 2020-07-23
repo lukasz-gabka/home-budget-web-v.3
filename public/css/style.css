@@ -72,7 +72,7 @@ body
 
 .message 
 {
-	white-space: pre !important;
+	white-space: pre-wrap !important;
 }
 
 .row

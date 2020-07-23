@@ -24,9 +24,15 @@ class Login extends \Core\Controller
      */
     public function newAction($arg = 0)
     {
-        View::renderTemplate('Login/new.html', [
-			'login_active' => 'active',
-			'login' => $arg]);
+		if (empty($_SESSION['user_id'])) {
+			View::renderTemplate('Login/new.html', [
+				'login_active' => 'active',
+				'login' => $arg]);
+		} else {
+			Flash::addMessage("Strona niedostępna dla zalogowanych użytkowników", Flash::INFO);
+			
+			$this->redirect('/');
+		}
     }
 
     /**

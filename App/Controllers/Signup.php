@@ -29,9 +29,16 @@ class Signup extends \Core\Controller
      */
     public function newAction($args = 0)
     {
-        View::renderTemplate('Signup/new.html', [
+		if (empty($_SESSION['user_id'])) {
+			View::renderTemplate('Signup/new.html', [
 			'register_active' => 'active',
 			'signup' => $args]);
+		} else {
+			Flash::addMessage("Strona niedostępna dla zalogowanych użytkowników", Flash::INFO);
+			
+			$this->redirect('/');
+		}
+        
     }
 
     /**
